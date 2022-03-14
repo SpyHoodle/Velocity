@@ -1,0 +1,85 @@
+#!/usr/bin/python
+import os
+import curses
+from core import colors, cursor
+from modes import normal
+
+
+def start_screen(stdscr):
+    # Get window height and width
+    height, width = stdscr.getmaxyx()
+
+    # Startup text
+    title = "λ Lambda"
+    subtext = [
+        "A performant, efficient and hackable text editor",
+        "",
+        "Type :h to open the README.md document",
+        "Type :o <file> to open a file and edit",
+        "Type :q or <C-c> to quit lambda"
+    ]
+
+    # Centering calculations
+    start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
+    start_y = int((height // 2) - 2)
+
+    # Rendering title
+    stdscr.addstr(start_y, start_x_title, title, curses.color_pair(7) | curses.A_BOLD)
+
+    # Print the subtext
+    for text in subtext:
+        start_y += 1
+        start_x = int((width // 2) - (len(text) // 2) - len(text) % 2)
+        stdscr.addstr(start_y, start_x, text)
+
+
+def start(stdscr):
+    # Initialise data before starting
+    data = {"cursor_y": 0, "cursor_x": 0, "commands": []}
+
+    # Clear and refresh the screen for a blank canvas
+    stdscr.clear()
+    stdscr.refresh()
+
+    # Initialise colors
+    colors.init_colors()
+
+    # Load the start screen
+    start_screen(stdscr)
+
+    # Change the cursor shape
+    cursor.cursor_mode("block")
+
+    # Main loop
+    while True:
+        # Get the height and width of the screen
+        height, width = stdscr.getmaxyx()
+
+        # Activate normal mode
+        data = normal.activate(stdscr, height, width, data)
+
+        # Calculate a valid cursor position from data
+        cursor_x = max(2, data["cursor_x"])
+        cursor_x = min(width - 1, cursor_x)
+        cursor_y = max(0, data["cursor_y"])
+        cursor_y = min(height - 3, cursor_y)
+
+        # Move the cursor
+        stdscr.move(cursor_y, cursor_x)
+
+        # Refresh and clear the screen
+        stdscr.refresh()
+        stdscr.clear()
+
+
+def main():
+    # Change the escape delay to 25ms
+    # Fixes an issue where esc takes too long to press
+    os.environ.setdefault("ESCDELAY", "25")
+
+    # Initialise the screen
+    curses.wrapper(start)
+
+
+if __name__ == "__main__":
+    main()
