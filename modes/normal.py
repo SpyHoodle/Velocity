@@ -22,6 +22,11 @@ def execute(data, key):
         # Exit normal mode and enter insert mode
         data["mode"] = "insert"
 
+    elif key == ord("I"):
+        # Exit normal mode and enter insert mode
+        data["cursor_x"] += 1
+        data["mode"] = "insert"
+
     elif key in (ord(":"), ord(";")):
         # Exit normal mode and enter command mode
         data["mode"] = "command"

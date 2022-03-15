@@ -9,7 +9,7 @@ def themes(data):
         # Add spaces before each part
         icon = f" {data['icon']}"
         mode = f" {data['mode'].upper()}"
-        file = f" {data['file']}"
+        file = f" {data['buffer_name']}"
 
     else:
         # The theme colors
@@ -18,7 +18,7 @@ def themes(data):
         # Add spaces on either end
         icon = f" {data['icon']} "
         mode = f" {data['mode'].upper()} "
-        file = f" {data['file']} "
+        file = f" {data['buffer_name']} "
 
     return colors, icon, mode, file
 
