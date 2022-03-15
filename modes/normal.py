@@ -1,9 +1,7 @@
-from modes import command
-from modes import insert
-from core import statusbar
+from core import statusbar, cursor
 
 
-def execute(stdscr, height, width, key, data):
+def execute(data, key):
     if key == ord("j"):
         # Move the cursor down
         data["cursor_y"] += 1
@@ -21,23 +19,30 @@ def execute(stdscr, height, width, key, data):
         data["cursor_x"] -= 1
 
     elif key == ord("i"):
-        # Insert mode
-        data = insert.activate(stdscr, height, width, data)
+        # Exit normal mode and enter insert mode
+        data["mode"] = "insert"
 
     elif key in (ord(":"), ord(";")):
-        # Switch to command mode
-        data = command.activate(stdscr, height, width, data)
+        # Exit normal mode and enter command mode
+        data["mode"] = "command"
 
     return data
 
 
-def activate(stdscr, height, width, data):
+def activate(stdscr, data):
     # Refresh the status bar
-    statusbar.refresh(stdscr, height, width, "NORMAL")
+    statusbar.refresh(stdscr, data)
+
+    # Move the cursor
+    cursor.move(stdscr, data)
+
+    # Switch the cursor to a block
+    cursor.cursor_mode("block")
 
     # Wait for and capture a key press from the user
     key = stdscr.getch()
 
     # Check against the keybindings
-    data = execute(stdscr, height, width, key, data)
+    data = execute(data, key)
+
     return data

@@ -1,8 +1,8 @@
 #!/usr/bin/python
+from core import colors, cursor, mode
 import os
 import curses
-from core import colors, cursor
-from modes import normal
+import argparse
 
 
 def start_screen(stdscr):
@@ -12,7 +12,7 @@ def start_screen(stdscr):
     # Startup text
     title = "λ Lambda"
     subtext = [
-        "A performant, efficient and hackable text editor",
+        "Next generation hackable text editor for nerds",
         "",
         "Type :h to open the README.md document",
         "Type :o <file> to open a file and edit",
@@ -33,39 +33,35 @@ def start_screen(stdscr):
         stdscr.addstr(start_y, start_x, text)
 
 
-def start(stdscr):
+def start(stdscr, file):
     # Initialise data before starting
-    data = {"cursor_y": 0, "cursor_x": 0, "commands": []}
-
-    # Clear and refresh the screen for a blank canvas
-    stdscr.clear()
-    stdscr.refresh()
+    data = {
+            "cursor_y": 0,
+            "cursor_x": 0,
+            "height": 0,
+            "width": 0,
+            "mode": "normal",
+            "icon": "λ",
+            "file": file,
+            "statusbar_theme": "filled"
+    }
 
     # Initialise colors
     colors.init_colors()
 
-    # Load the start screen
-    start_screen(stdscr)
-
     # Change the cursor shape
     cursor.cursor_mode("block")
+
+    # Start the screen
+    start_screen(stdscr)
 
     # Main loop
     while True:
         # Get the height and width of the screen
-        height, width = stdscr.getmaxyx()
+        data["height"], data["width"] = stdscr.getmaxyx()
 
-        # Activate normal mode
-        data = normal.activate(stdscr, height, width, data)
-
-        # Calculate a valid cursor position from data
-        cursor_x = max(2, data["cursor_x"])
-        cursor_x = min(width - 1, cursor_x)
-        cursor_y = max(0, data["cursor_y"])
-        cursor_y = min(height - 3, cursor_y)
-
-        # Move the cursor
-        stdscr.move(cursor_y, cursor_x)
+        # Activate the next mode
+        data = mode.activate(stdscr, data)
 
         # Refresh and clear the screen
         stdscr.refresh()
@@ -73,12 +69,24 @@ def start(stdscr):
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser.add_argument("file", metavar="file", type=str, nargs="?",
+                        help="File to open")
+
+    args = parser.parse_args()
+    # Check the file name
+    if args.file:
+        file = args.file
+
+    else:
+        file = "[No Name]"
+
     # Change the escape delay to 25ms
     # Fixes an issue where esc takes too long to press
     os.environ.setdefault("ESCDELAY", "25")
 
     # Initialise the screen
-    curses.wrapper(start)
+    curses.wrapper(start, file)
 
 
 if __name__ == "__main__":
