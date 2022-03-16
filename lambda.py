@@ -74,19 +74,26 @@ def start(stdscr, buffer_name, buffer_list):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser = argparse.ArgumentParser(description="Next generation hackable text editor for nerds.")
     parser.add_argument("file", metavar="file", type=str, nargs="?",
-                        help="File to open")
+                        help="The name of a file for lambda to open")
 
     args = parser.parse_args()
     # Check if a file name has been inputted
     if args.file:
         buffer_name = args.file
-        buffer_list = files.open_file(buffer_name)
 
-        # Convert each line into a list of lists with each element of the sublist representing one character
-        for index, line in enumerate(buffer_list):
-            buffer_list[index] = list(line)
+        # Only if the file exists
+        if os.path.exists(args.file):
+            # Load the file into the buffer
+            buffer_list = files.open_file(buffer_name)
+
+            # Convert each line into a list of lists with each element of the sublist representing one character
+            for index, line in enumerate(buffer_list):
+                buffer_list[index] = list(line)
+
+        else:
+            buffer_list = [[""]]
 
     else:
         buffer_name = "[No Name]"
