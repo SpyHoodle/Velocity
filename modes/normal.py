@@ -1,4 +1,5 @@
 from core import statusbar, cursor
+import curses
 
 
 def execute(data, key):
@@ -34,18 +35,18 @@ def execute(data, key):
     return data
 
 
-def activate(stdscr, data):
+def activate(screen, data):
     # Refresh the status bar
-    statusbar.refresh(stdscr, data)
+    statusbar.refresh(screen, data)
 
     # Move the cursor
-    cursor.move(stdscr, data)
+    cursor.move(screen, data)
 
     # Switch the cursor to a block
     cursor.cursor_mode("block")
 
     # Wait for and capture a key press from the user
-    key = stdscr.getch()
+    key = screen.getch()
 
     # Check against the keybindings
     data = execute(data, key)

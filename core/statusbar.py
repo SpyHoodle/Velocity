@@ -23,21 +23,23 @@ def themes(data):
     return colors, icon, mode, file
 
 
-def refresh(stdscr, data):
+def refresh(screen, data):
+    # Calculate the theme
     colors, icon, mode, file = themes(data)
+
     # Render icon
-    stdscr.addstr(data["height"] - 2, 0, icon,
+    screen.addstr(data["height"] - 2, 0, icon,
                   curses.color_pair(colors[0]) | curses.A_BOLD)
 
     # Render mode
-    stdscr.addstr(data["height"] - 2, len(icon), mode,
+    screen.addstr(data["height"] - 2, len(icon), mode,
                   curses.color_pair(colors[1]) | curses.A_BOLD)
 
     # Render file name
-    stdscr.addstr(data["height"] - 2, len(icon) + len(mode), file,
+    screen.addstr(data["height"] - 2, len(icon) + len(mode), file,
                   curses.color_pair(colors[2]) | curses.A_BOLD)
 
     # Rest of the bar
-    stdscr.addstr(data["height"] - 2, len(icon) + len(mode) + len(file),
+    screen.addstr(data["height"] - 2, len(icon) + len(mode) + len(file),
                   " " * (data["width"] - (len(icon) + len(mode) + len(file))),
                   curses.color_pair(colors[3]))

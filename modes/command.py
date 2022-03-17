@@ -2,10 +2,10 @@ from core import statusbar, utils
 import curses
 
 
-def execute(stdscr, data, commands):
+def execute(screen, data, commands):
     if not commands:
         # Quit if there are no commands, don't check anything
-        return
+        return data
 
     for command in commands:
         if command == "w":
@@ -14,9 +14,10 @@ def execute(stdscr, data, commands):
 
         elif command == "q":
             # Goodbye prompt
-            utils.goodbye(stdscr, data)
+            utils.goodbye(screen, data)
 
         elif command == "t":
+            # Theme switcher
             if data["statusbar_theme"] == "filled":
                 data["statusbar_theme"] = "bare"
 
@@ -24,29 +25,29 @@ def execute(stdscr, data, commands):
                 data["statusbar_theme"] = "filled"
 
         else:
-            utils.error(stdscr, data, f"Not an editor command: '{command}'")
+            utils.error(screen, data, f"Not an editor command: '{command}'")
 
     return data
 
 
-def activate(stdscr, data):
+def activate(screen, data):
     # Initialise variables
     commands = []
 
     # Visibly switch to command mode
-    statusbar.refresh(stdscr, data)
-    stdscr.addstr(data["height"]-1, 0, ":")
-    stdscr.move(data["height"]-1, 1)
+    statusbar.refresh(screen, data)
+    screen.addstr(data["height"]-1, 0, ":")
+    screen.move(data["height"]-1, 1)
 
     # Main loop
     while True:
         # Get a key inputted by the user
-        key = stdscr.getch()
+        key = screen.getch()
 
         # Handle subtracting a key (backspace)
         if key == curses.KEY_BACKSPACE:
             # Write whitespace over characters to refresh it
-            stdscr.addstr(data["height"]-1, 1, " " * len(commands))
+            screen.addstr(data["height"]-1, 1, " " * len(commands))
 
             if commands:
                 # Subtract a character
@@ -63,10 +64,10 @@ def activate(stdscr, data):
 
         elif key in (curses.KEY_ENTER, ord('\n'), ord('\r'), ord(":"), ord(";")):
             # Execute commands
-            data = execute(stdscr, data, commands)
+            data = execute(screen, data, commands)
 
             # Clear the bottom bar
-            stdscr.addstr(data["height"] - 1, 0, " " * (data["width"] - 1))
+            screen.addstr(data["height"] - 1, 0, " " * (data["width"] - 1))
 
             # Return to normal mode after executing a command
             data["mode"] = "normal"
@@ -83,7 +84,7 @@ def activate(stdscr, data):
         friendly_command = "".join(commands)
 
         # Write the commands to the screen
-        stdscr.addstr(data["height"]-1, 1, friendly_command)
+        screen.addstr(data["height"]-1, 1, friendly_command)
 
         # Move the cursor the end of the commands
-        stdscr.move(data["height"]-1, len(commands)+1)
+        screen.move(data["height"]-1, len(commands)+1)

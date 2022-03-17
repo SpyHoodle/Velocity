@@ -4,7 +4,7 @@ import curses
 import argparse
 
 
-def start(stdscr, buffer_name, buffer_list):
+def start(screen, buffer_name, buffer_list):
     # Initialise data before starting
     data = {
         "cursor_y": 0,
@@ -16,6 +16,8 @@ def start(stdscr, buffer_name, buffer_list):
         "info_bar": ["  "],
         "buffer_name": buffer_name,
         "buffer_list": buffer_list,
+        "visible_y": 0,
+        "visible_x": 0,
         "statusbar_theme": "filled"
     }
 
@@ -27,22 +29,28 @@ def start(stdscr, buffer_name, buffer_list):
 
     # Start the screen
     if data["buffer_name"] == "[No Name]":
-        welcome.start_screen(stdscr)
+        welcome.start_screen(screen)
 
     # Main loop
     while True:
         # Get the height and width of the screen
-        data["height"], data["width"] = stdscr.getmaxyx()
+        data["height"], data["width"] = screen.getmaxyx()
 
         # Write the buffer to the screen
-        buffer.write_buffer(stdscr, data)
+        buffer.write_buffer(screen, data)
 
         # Activate the next mode
-        data = mode.activate(stdscr, data)
+        data = mode.activate(screen, data)
+
+        # Write the buffer to the screen
+        buffer.write_buffer(screen, data)
 
         # Refresh and clear the screen
-        stdscr.refresh()
-        stdscr.clear()
+        screen.refresh()
+        screen.clear()
+
+        # Write the buffer to the screen
+        buffer.write_buffer(screen, data)
 
 
 def main():

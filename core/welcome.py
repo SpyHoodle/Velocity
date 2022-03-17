@@ -1,9 +1,9 @@
 import curses
 
 
-def start_screen(stdscr):
+def start_screen(screen):
     # Get window height and width
-    height, width = stdscr.getmaxyx()
+    height, width = screen.getmaxyx()
 
     # Startup text
     title = "λ Lambda"
@@ -20,10 +20,10 @@ def start_screen(stdscr):
     start_y = int((height // 2) - 2)
 
     # Rendering title
-    stdscr.addstr(start_y, start_x_title, title, curses.color_pair(7) | curses.A_BOLD)
+    screen.addstr(start_y, start_x_title, title, curses.color_pair(7) | curses.A_BOLD)
 
     # Print the subtext
     for text in subtext:
         start_y += 1
         start_x = int((width // 2) - (len(text) // 2) - len(text) % 2)
-        stdscr.addstr(start_y, start_x, text)
+        screen.addstr(start_y, start_x, text)

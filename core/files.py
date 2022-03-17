@@ -1,4 +1,4 @@
-def open_file(file):
-    with open(file) as f:
+def open_file(file_name):
+    with open(file_name) as f:
         lines = f.readlines()
-        return lines
+    return lines
