@@ -22,24 +22,20 @@ def execute(instance, key):
 
     elif key == ord("i"):
         # Activate insert mode
-        instance = modes.activate(instance, "insert")
+        modes.activate(instance, "insert")
 
     elif key == ord("I"):
         # Move the cursor to the right
         instance.cursor = cursors.cursor_push(instance.cursor, "right")
 
         # Then activate insert mode
-        instance = modes.activate(instance, "insert")
+        modes.activate(instance, "insert")
 
     elif key in (ord(":"), ord(";")):
         # Activate command mode
-        instance = modes.activate(instance, "command")
-
-    return instance
+        modes.activate(instance, "command")
 
 
-def activate(instance):
+def activate():
     # Switch the cursor to a block
     cursors.cursor_mode("block")
-
-    return instance

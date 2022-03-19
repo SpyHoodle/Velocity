@@ -1,18 +1,13 @@
-from core import cursors
-from mode import normal
+from core import cursors, modes
 
 
 def execute(instance, key):
+    # Enter key
     if key == 27:
         # Switch to normal mode
-        instance.mode = "normal"
-        normal.activate(instance)
-
-    return instance
+        modes.activate(instance, "normal")
 
 
 def activate(instance):
     # Switch the cursor to a line
     cursors.cursor_mode("line")
-
-    return instance

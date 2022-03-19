@@ -21,7 +21,10 @@ class Lambda:
         self.config = {"icon": "λ"}
 
     def update_dimensions(self):
+        # Calculate the entire height and width of the terminal
         self.height, self.width = self.screen.getmaxyx()
+
+        # Calculate the safe area for the buffer by removing heights & widths of components
         self.safe_height = self.height - len(self.components.components["bottom"])
 
     def update(self):
@@ -41,7 +44,7 @@ class Lambda:
         # Change the cursor shape
         cursors.cursor_mode("block")
 
-        # Turn no echo on
+        # Don't echo any key-presses
         curses.noecho()
 
         # Show a welcome message if lambda opens with no file
@@ -52,6 +55,7 @@ class Lambda:
         self.run()
 
     def run(self):
+        # The main loop, which runs until the user quits
         while True:
             # Write the buffer to the screen
             # buffers.write_buffer(screen, buffer)
@@ -71,38 +75,47 @@ class Lambda:
 
 
 def main():
-    # Command line arguments
+    # Shell arguments
     parser = argparse.ArgumentParser(description="Next generation hackable text editor for nerds.")
     parser.add_argument("file", metavar="file", type=str, nargs="?",
                         help="The name of a file for lambda to open")
 
-    # Collect the arguments passed into lambda
+    # Collect the arguments passed into lambda at the shell
     args = parser.parse_args()
 
-    # Load the file into buffer
+    # Load the file into a Buffer object
     buffer = buffers.load_file(args.file)
 
     # Change the escape delay to 25ms
     # Fixes an issue where esc takes way too long to press
     os.environ.setdefault("ESCDELAY", "25")
 
-    # Load lambda with the buffer
+    # Load lambda with the buffer object
     screen = Lambda(buffer)
 
-    # Start the screen
+    # Start the screen, this will loop until exit
     try:
         screen.start()
 
-    # KeyboardInterrupt is thrown when ctrl+c is pressed
+    # KeyboardInterrupt is thrown when <C-c> is pressed (exit)
     except KeyboardInterrupt:
+        # Clean up the screen
         curses.endwin()
+
+        # Then, just exit
         sys.exit()
 
+    # Excepts *any* errors that occur
     except Exception as exception:
+        # Clean up the screen
         curses.endwin()
+
+        # Print the error message and traceback
         print(f"{colors.Codes.red}FATAL ERROR:{colors.Codes.end} "
               f"{colors.Codes.yellow}{exception}{colors.Codes.end}\n")
         print(traceback.format_exc())
+
+        # Exit, with an error code
         sys.exit(0)
 
 

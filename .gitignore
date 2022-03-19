@@ -1,2 +1,4 @@
-/target
+__pycache__
+core/__pycache__
+mode/__pycache__
 .idea

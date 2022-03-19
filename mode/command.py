@@ -2,33 +2,31 @@ from core import utils
 
 
 def execute(instance, commands):
-    if not commands:
-        # Quit if there are no commands, don't check anything
-        return instance
+    # Only if commands are given
+    if commands:
+        # Check each command in the list of commands
+        for command in commands:
+            # Write
+            if command == "w":
+                # Write to the file
+                pass
 
-    for command in commands:
-        if command == "w":
-            # Write to the file
-            pass
+            # Quit
+            elif command == "q":
+                # Load a goodbye prompt
+                utils.goodbye(instance)
 
-        elif command == "q":
-            # Load a goodbye prompt
-            utils.goodbye(instance)
-
-        else:
-            utils.error(instance, f"not an editor command: '{command}'")
-
-    return instance
+            # Unknown command
+            else:
+                utils.error(instance, f"not an editor command: '{command}'")
 
 
 def activate(instance):
-    # Start the prompt
+    # Create a prompt, which returns the input (commands)
     commands = utils.prompt(instance, ":")
 
-    # Execute the commands
-    instance = execute(instance, commands)
+    # Execute the commands given
+    execute(instance, commands)
 
-    # Return to normal mode
+    # Return to normal mode once all commands are executed
     instance.mode = "normal"
-
-    return instance
