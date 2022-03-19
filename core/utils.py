@@ -1,3 +1,5 @@
+from core.colors import Codes as c
+import traceback
 import curses
 import sys
 
@@ -107,3 +109,16 @@ def error(instance, message: str):
 
     # Clear the bottom of the screen
     clear(instance, instance.height - 1, 0)
+
+
+def fatal_error(exception: Exception):
+    # Clean up the screen
+    curses.endwin()
+
+    # Print the error message and traceback
+    print(f"{c.red}FATAL ERROR:{c.end} "
+          f"{c.yellow}{exception}{c.end}\n")
+    print(traceback.format_exc())
+
+    # Exit, with an error exit code
+    sys.exit(0)

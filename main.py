@@ -1,7 +1,6 @@
 from core import colors, cursors, buffers, modes, utils
 from core.buffers import Buffer
 from core.components import Components
-import traceback
 import argparse
 import curses
 import sys
@@ -35,9 +34,13 @@ class Lambda:
         self.components.render(self)
 
         # Move the cursor
-        cursors.cursor_move(self.screen, self.cursor)
+        cursors.cursor_move(self)
 
     def start(self):
+        # Change the escape key delay to 25ms
+        # Fixes an issue where the "esc" key takes way too long to press
+        os.environ.setdefault("ESCDELAY", "25")
+
         # Initialise colors
         colors.init_colors()
 
@@ -86,10 +89,6 @@ def main():
     # Load the file into a Buffer object
     buffer = buffers.load_file(args.file)
 
-    # Change the escape delay to 25ms
-    # Fixes an issue where esc takes way too long to press
-    os.environ.setdefault("ESCDELAY", "25")
-
     # Load lambda with the buffer object
     screen = Lambda(buffer)
 
@@ -107,16 +106,7 @@ def main():
 
     # Excepts *any* errors that occur
     except Exception as exception:
-        # Clean up the screen
-        curses.endwin()
-
-        # Print the error message and traceback
-        print(f"{colors.Codes.red}FATAL ERROR:{colors.Codes.end} "
-              f"{colors.Codes.yellow}{exception}{colors.Codes.end}\n")
-        print(traceback.format_exc())
-
-        # Exit, with an error code
-        sys.exit(0)
+        utils.fatal_error(exception)
 
 
 if __name__ == "__main__":
