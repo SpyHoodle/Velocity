@@ -8,6 +8,6 @@ def execute(instance, key):
         modes.activate(instance, "normal")
 
 
-def activate(instance):
+def activate():
     # Switch the cursor to a line
     cursors.cursor_mode("line")

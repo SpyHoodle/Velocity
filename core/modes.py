@@ -12,11 +12,11 @@ def activate(instance, mode):
 
     elif mode == "insert":
         # Activate insert mode
-        insert.activate(instance)
+        insert.activate()
 
     elif mode == "normal":
         # Activate normal mode
-        normal.activate(instance)
+        normal.activate()
 
 
 def handle_key(instance, key):
