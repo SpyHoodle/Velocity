@@ -22,8 +22,13 @@ class StatusBar:
 class Components:
     def __init__(self, components: dict = None):
         self.components = components or {
+            "left": [[" "], ["12222"], [""]],
             "bottom": [StatusBar],
         }
+
+    @staticmethod
+    def get_component_width(component: list) -> int:
+        return sum(len(max(sub_components)) for sub_components in component if max(sub_components))
 
     def render(self, instance):
         for component in self.components["bottom"]:

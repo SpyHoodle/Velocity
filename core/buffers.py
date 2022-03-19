@@ -1,3 +1,4 @@
+from core import cursors
 import os
 
 
@@ -5,7 +6,23 @@ class Buffer:
     def __init__(self, path: str, name: str = None, data: list = None):
         self.path = path
         self.name = name or "[No Name]"
-        self.data = data or [[""]]
+        self.data = data or [""]
+
+    def render(self, instance):
+        # Update the screen information
+        instance.update()
+
+        for y, line in enumerate(self.data[instance.offset[0]:]):
+            if y < instance.safe_height:
+                for x, character in enumerate(line[instance.offset[1]:]):
+                    if x < instance.safe_width:
+                        instance.screen.addstr(y, x + instance.components.get_component_width(
+                            instance.components.components["left"]), character)
+
+                # Write blank spaces for the rest of the line
+                if instance.safe_width - len(line) > 0:
+                    instance.screen.addstr(y, instance.components.get_component_width(
+                        instance.components.components["left"]) + len(line), " " * (instance.safe_width - len(line)))
 
     @staticmethod
     def remove_char(string: str, index: int) -> str:
@@ -31,7 +48,7 @@ def open_file(file_name):
 def load_file(file_path=None):
     # Default settings for a file
     file_name = "[No Name]"
-    file_data = [[""]]
+    file_data = [""]
 
     if file_path:
         # Set the file's name

@@ -6,19 +6,19 @@ from mode import command
 def execute(instance, key):
     if key == ord("j"):
         # Move the cursor down
-        cursors.cursor_push(instance, "down")
+        cursors.push(instance, "down")
 
     elif key == ord("k"):
         # Move the cursor up
-        cursors.cursor_push(instance, "up")
+        cursors.push(instance, "up")
 
     elif key == ord("l"):
         # Move the cursor right
-        cursors.cursor_push(instance, "right")
+        cursors.push(instance, "right")
 
     elif key == ord("h"):
         # Move the cursor left
-        cursors.cursor_push(instance, "left")
+        cursors.push(instance, "left")
 
     elif key == ord("i"):
         # Activate insert mode
@@ -26,7 +26,7 @@ def execute(instance, key):
 
     elif key == ord("I"):
         # Move the cursor to the right
-        cursors.cursor_push(instance, "right")
+        cursors.push(instance, "right")
 
         # Then activate insert mode
         modes.activate(instance, "insert")
@@ -38,4 +38,4 @@ def execute(instance, key):
 
 def activate():
     # Switch the cursor to a block
-    cursors.cursor_mode("block")
+    cursors.mode("block")

@@ -10,4 +10,4 @@ def execute(instance, key):
 
 def activate():
     # Switch the cursor to a line
-    cursors.cursor_mode("line")
+    cursors.mode("line")

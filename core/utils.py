@@ -1,7 +1,25 @@
 from core.colors import Codes as c
 import traceback
+from pathlib import Path
 import curses
+import json
 import sys
+import os
+
+
+def load_json(file: str) -> dict:
+    # Load the json file with read permissions
+    with open(file, "r") as f:
+        return json.load(f)
+
+
+def load_config() -> dict:
+    # Parse the path of the config file
+    config_file = f"{Path.home()}/.config/lambda/config.json"
+
+    # Only if the config file exists, attempt to load it
+    if os.path.exists(config_file):
+        return load_json(config_file)
 
 
 def clear(instance, y: int, x: int):
