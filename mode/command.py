@@ -11,6 +11,11 @@ def execute(instance, commands):
                 # Write to the file
                 pass
 
+            elif command == "d":
+                # Load a prompt with debug info
+                utils.prompt(instance, f"Cursor: {instance.cursor} | Raw: {instance.raw_cursor} | Len: {len(instance.buffer.data)}")
+                utils.prompt(instance, f"{len(instance.buffer.data[6])}")
+
             # Quit
             elif command == "q":
                 # Load a goodbye prompt
@@ -18,7 +23,7 @@ def execute(instance, commands):
 
             # Unknown command
             else:
-                utils.error(instance, f"not an editor command: '{command}'")
+                utils.error(instance, f"invalid command: '{command}'")
 
 
 def activate(instance):

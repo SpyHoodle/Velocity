@@ -7,6 +7,14 @@ import sys
 import os
 
 
+def gracefully_exit():
+    # Close the curses window
+    curses.endwin()
+
+    # Finally, exit the program
+    sys.exit()
+
+
 def load_json(file: str) -> dict:
     # Load the json file with read permissions
     with open(file, "r") as f:
@@ -69,7 +77,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         # Subtracting a key (backspace)
         if key in (curses.KEY_BACKSPACE, 127, '\b'):
             # Write whitespace over characters to refresh it
-            clear(instance, instance.height - 1, 0)
+            clear(instance, instance.height - 1, len(message) + len(inp) - 1)
 
             if inp:
                 # Subtract a character from the input list
@@ -93,6 +101,12 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
             valid = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ!"
             if chr(key) in valid and len(inp) < (instance.width - 2):
                 inp.append(chr(key))
+
+        # Refresh the screen
+        instance.screen.refresh()
+
+        # Refresh the screen
+        instance.refresh()
 
         # Write the message to the screen
         instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color))

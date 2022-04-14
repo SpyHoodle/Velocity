@@ -1,41 +1,44 @@
+import argparse
+import curses
+import os
+
 from core import colors, cursors, buffers, modes, utils
 from core.buffers import Buffer
 from core.components import Components
-import argparse
-import curses
-import sys
-import os
 
 
 class Lambda:
     def __init__(self, buffer: Buffer, config: dict = None):
         self.screen = curses.initscr()
-        self.buffer = buffer
-        self.cursor = [0, 0]
-        self.offset = [0, 0]
-        self.current_line = 0
-        self.mode = "normal"
         self.components = Components()
+        self.config = config or {"icon": "λ"}
+        self.buffer = buffer
+        self.mode = "normal"
+        self.cursor = [0, 0]
+        self.raw_cursor = [0, 0]
+        self.offset = [0, 0]
         self.height = 0
         self.width = 0
         self.safe_height = 0
         self.safe_width = 0
-        self.config = config or {"icon": "λ"}
 
     def update_dimensions(self):
         # Calculate the entire height and width of the terminal
         self.height, self.width = self.screen.getmaxyx()
 
         # Calculate the safe area for the buffer by removing heights & widths of components
-        self.safe_height = self.height - len(self.components.components["bottom"])
-        self.safe_width = self.width - self.components.get_component_width(self.components.components["left"])
+        self.safe_height = self.height - len(self.components.components["bottom"]) - 2
+        self.safe_width = self.width - self.components.get_component_width(self.components.components["left"]) - 1
 
-    def update(self):
+    def refresh(self):
+        # Calculate the real cursor position
+        self.cursor[0], self.cursor[1] = self.raw_cursor[0] + self.offset[0], self.raw_cursor[1] + self.offset[1]
+
         # Update the dimensions of the terminal
         self.update_dimensions()
 
-        # Calculate the current line number
-        self.current_line = self.cursor[0] + self.offset[0]
+        # Write the buffer to the screen
+        self.buffer.render(self)
 
         # Refresh the on-screen components
         self.components.render(self)
@@ -67,11 +70,8 @@ class Lambda:
     def run(self):
         # The main loop, which runs until the user quits
         while True:
-            # Write the buffer to the screen
-            self.buffer.render(self)
-
             # Update the screen variables
-            self.update()
+            self.refresh()
 
             # Wait for a keypress
             key = self.screen.getch()
@@ -81,7 +81,7 @@ class Lambda:
 
             # Refresh and clear the screen
             self.screen.refresh()
-            self.screen.clear()
+            self.screen.erase()
 
 
 def main():
@@ -108,11 +108,7 @@ def main():
 
     # KeyboardInterrupt is thrown when <C-c> is pressed (exit)
     except KeyboardInterrupt:
-        # Clean up the screen
-        curses.endwin()
-
-        # Then, just exit
-        sys.exit()
+        utils.gracefully_exit()
 
     # Excepts *any* errors that occur
     except Exception as exception:

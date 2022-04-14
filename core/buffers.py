@@ -1,4 +1,3 @@
-from core import cursors
 import os
 
 
@@ -9,13 +8,10 @@ class Buffer:
         self.data = data or [""]
 
     def render(self, instance):
-        # Update the screen information
-        instance.update()
-
         for y, line in enumerate(self.data[instance.offset[0]:]):
-            if y < instance.safe_height:
+            if y <= instance.safe_height:
                 for x, character in enumerate(line[instance.offset[1]:]):
-                    if x < instance.safe_width:
+                    if x <= instance.safe_width:
                         instance.screen.addstr(y, x + instance.components.get_component_width(
                             instance.components.components["left"]), character)
 
@@ -40,6 +36,10 @@ def open_file(file_name):
     with open(file_name) as f:
         # Convert it into a list of lines
         lines = f.readlines()
+
+    # Add a line if the file is empty or if the last line is not empty
+    if lines[-1].endswith("\n") or not len(lines):
+        lines.append("")
 
     # Return the list of lines
     return lines

@@ -4,7 +4,9 @@ from mode import normal, insert, command
 def activate(instance, mode):
     # Visibly update the mode
     instance.mode = mode
-    instance.update()
+
+    # Refresh the screen
+    instance.refresh()
 
     if mode == "command":
         # Activate command mode

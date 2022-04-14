@@ -1,3 +1,4 @@
+from core import utils
 import curses
 
 
@@ -15,60 +16,54 @@ def mode(to_mode: str):
         curses.curs_set(1)
 
 
+# TODO
 def push(instance, direction: (int, str)):
     if direction in (0, "up", "north"):
-        # If the cursor is at the top of the file
-        if instance.cursor[0] == 0 and not instance.offset[0] == 0:
-            # Move the buffer up
+        # If the cursor isn't at the top of the screen
+        if instance.raw_cursor[0] > 0:
+            # Move the cursor up
+            instance.raw_cursor[0] -= 1
+
+        # Move the buffer upwards if the cursor is at the top of the screen and not at the top of the buffer
+        if instance.raw_cursor[0] == 0 and instance.cursor[0] == instance.offset[0] and instance.cursor[0] != 0:
             instance.offset[0] -= 1
 
-        elif instance.cursor[0] != 0:
-            # Decrease the y position of the cursor
-            instance.cursor[0] -= 1
-
-            # Jump to the end of the line
-            if instance.cursor[1] > len(instance.buffer.data[instance.current_line - 1]) - 2:
-                instance.cursor[1] = len(instance.buffer.data[instance.current_line - 1]) - 2
-
     elif direction in (1, "right", "east"):
-        # Increase the x position of the cursor
-        if instance.cursor[1] < len(instance.buffer.data[instance.current_line]) - 2:
-            instance.cursor[1] += 1
+        instance.raw_cursor[1] += 1
 
     elif direction in (2, "down", "south"):
-        # Check if the cursor is at the bottom of the screen
-        if instance.cursor[0] == instance.safe_height - 2 and not instance.current_line == len(instance.buffer.data):
-            # Move the buffer down
+        if instance.raw_cursor[0] == instance.safe_height and instance.cursor[0] != len(instance.buffer.data) - 1:
             instance.offset[0] += 1
 
-        elif instance.cursor[0] != instance.safe_height - 2:
-            # Increase the y position of the cursor
-            instance.cursor[0] += 1
-
-            # Jump to the end of the line
-            if instance.cursor[1] > len(instance.buffer.data[instance.current_line + 1]) - 2:
-                instance.cursor[1] = len(instance.buffer.data[instance.current_line + 1]) - 2
+        # If the cursor isn't at the bottom of the screen
+        elif instance.raw_cursor[0] != instance.safe_height and instance.cursor[0] != len(instance.buffer.data) - 1:
+            # Move the cursor down
+            instance.raw_cursor[0] += 1
 
     elif direction in (3, "left", "west"):
-        # Decrease the x position of the cursor
-        if instance.cursor[1] != 0:
-            instance.cursor[1] -= 1
+        if instance.raw_cursor[1] > 0:
+            instance.raw_cursor[1] -= 1
 
 
-def check(instance, cursor: list):
-    # Prevent any values out of bounds (especially important when resizing)
-    cursor[1] = max(0, cursor[1])
-    cursor[1] = min(instance.safe_width - 1, cursor[1])
+def check(instance, cursor: list) -> list:
+    # Prevent the cursor from going outside the buffer
+    cursor[1] = min(len(instance.buffer.data[instance.cursor[0]]) - 2, cursor[1])
+
+    # Prevent any negative values
     cursor[0] = max(0, cursor[0])
-    cursor[0] = min(instance.height - 2 - len(instance.components.components["bottom"]), cursor[0])
+    cursor[1] = max(0, cursor[1])
+
+    # Prevent the cursor from going outside the screen
+    cursor[1] = min(instance.safe_width, cursor[1])
+    cursor[0] = min(instance.safe_height, cursor[0])
 
     return cursor
 
 
 def move(instance):
     # Run a final check to see if the cursor is valid
-    instance.cursor = check(instance, instance.cursor)
+    instance.raw_cursor = check(instance, instance.raw_cursor)
 
     # Moves the cursor to anywhere on the screen
-    instance.screen.move(instance.cursor[0], instance.cursor[1] +
+    instance.screen.move(instance.raw_cursor[0], instance.raw_cursor[1] +
                          instance.components.get_component_width(instance.components.components["left"]))

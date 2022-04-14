@@ -1,6 +1,4 @@
 from core import cursors, modes
-from mode import insert
-from mode import command
 
 
 def execute(instance, key):

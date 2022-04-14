@@ -22,7 +22,7 @@ class StatusBar:
 class Components:
     def __init__(self, components: dict = None):
         self.components = components or {
-            "left": [[" "], ["12222"], [""]],
+            "left": ["  "],
             "bottom": [StatusBar],
         }
 
