@@ -7,7 +7,7 @@ class StatusBar:
         self.mode = instance.mode.upper()
         self.file = instance.buffer.name or "[No Name]"
         self.icon = instance.config["icon"] or "λ"
-        self.theme = "inverted"
+        self.theme = "default"
         self.colors = [7, 5, 13]
         self.components = [self.icon, self.mode, self.file]
 
@@ -23,6 +23,16 @@ class StatusBar:
         self.update(instance)
 
         if self.theme == "inverted":
+            # Initialise the x position for each component
+            x = 1
+
+            # Render each component
+            for count, component in enumerate(self.components):
+                instance.screen.addstr(instance.height - 2, x, component,
+                                       curses.color_pair(self.colors[count]) | curses.A_BOLD)
+                x += len(component) + 1
+
+        else:
             # Initialise temporary colors for inverted theme
             colors = []
 
@@ -33,8 +43,9 @@ class StatusBar:
             # Initialise the x position for each component
             x = 0
 
+            # Render each component
             for count, component in enumerate(self.components):
-                component = " " + component + " "
+                component = f" {component} "
                 instance.screen.addstr(instance.height - 2, x, component,
                                        curses.color_pair(colors[count]) | curses.A_BOLD)
                 x += len(component)
@@ -42,15 +53,6 @@ class StatusBar:
             # Add a space at the end of the status bar
             instance.screen.addstr(instance.height - 2, x, " " * (instance.width - x),
                                    curses.color_pair(2))
-        else:
-            # Initialise the x position for each component
-            x = 1
-
-            # Render each component
-            for count, component in enumerate(self.components):
-                instance.screen.addstr(instance.height - 2, x, component,
-                                       curses.color_pair(self.colors[count]) | curses.A_BOLD)
-                x += len(component) + 1
 
 
 class Components:

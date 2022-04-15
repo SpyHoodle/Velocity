@@ -15,7 +15,7 @@ def activate(instance, mode):
 
     elif mode == "insert":
         # Activate insert mode
-        instance.components.components["bottom"][0].colors[1] = 9
+        instance.components.components["bottom"][0].colors[1] = 11
         insert.activate()
 
     elif mode == "normal":
