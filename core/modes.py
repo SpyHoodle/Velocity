@@ -10,14 +10,17 @@ def activate(instance, mode):
 
     if mode == "command":
         # Activate command mode
+        instance.components.components["bottom"][0].colors[1] = 5
         command.activate(instance)
 
     elif mode == "insert":
         # Activate insert mode
+        instance.components.components["bottom"][0].colors[1] = 9
         insert.activate()
 
     elif mode == "normal":
         # Activate normal mode
+        instance.components.components["bottom"][0].colors[1] = 5
         normal.activate()
 
 

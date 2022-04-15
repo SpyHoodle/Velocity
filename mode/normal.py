@@ -1,20 +1,26 @@
-from core import cursors, modes
+import curses
+
+from core import cursors, modes, utils
 
 
 def execute(instance, key):
-    if key == ord("j"):
+    if key == curses.BUTTON1_CLICKED:
+        # Move the cursor to the position clicked
+        utils.prompt(instance, str(curses.getmouse()))
+
+    elif key in (ord("j"), curses.KEY_DOWN):
         # Move the cursor down
         cursors.push(instance, "down")
 
-    elif key == ord("k"):
+    elif key in (ord("k"), curses.KEY_UP):
         # Move the cursor up
         cursors.push(instance, "up")
 
-    elif key == ord("l"):
+    elif key in (ord("l"), curses.KEY_RIGHT):
         # Move the cursor right
         cursors.push(instance, "right")
 
-    elif key == ord("h"):
+    elif key in (ord("h"), curses.KEY_LEFT):
         # Move the cursor left
         cursors.push(instance, "left")
 

@@ -1,28 +1,26 @@
 from core import utils
 
 
-def execute(instance, commands):
+def execute(instance, commands: list):
     # Only if commands are given
     if commands:
         # Check each command in the list of commands
         for command in commands:
-            # Write
-            if command == "w":
+            if command == "w":  # Write
                 # Write to the file
                 pass
 
-            elif command == "d":
-                # Load a prompt with debug info
-                utils.prompt(instance, f"Cursor: {instance.cursor} | Raw: {instance.raw_cursor} | Len: {len(instance.buffer.data)}")
-                utils.prompt(instance, f"{len(instance.buffer.data[6])}")
+            if command == "d":  # Debug
+                # Create the debug prompt
+                utils.prompt(instance, f"*Whawt awe uwu doing tuwu me mastew?* "
+                                       f"Cursor: {instance.cursor} Raw: {instance.raw_cursor} "
+                                       f"Len: {len(instance.buffer.data)}")
 
-            # Quit
-            elif command == "q":
-                # Load a goodbye prompt
+            elif command == "q":  # Quit
+                # Create a goodbye prompt
                 utils.goodbye(instance)
 
-            # Unknown command
-            else:
+            else:  # Invalid command
                 utils.error(instance, f"invalid command: '{command}'")
 
 

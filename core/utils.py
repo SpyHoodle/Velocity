@@ -67,6 +67,9 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
     # Initialise the input list
     inp = []
 
+    # Write whitespace over characters to refresh it
+    clear(instance, instance.height - 1, len(message) + len(inp) - 1)
+
     # Write the message to the screen
     instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color))
 

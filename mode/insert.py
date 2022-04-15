@@ -2,8 +2,7 @@ from core import cursors, modes
 
 
 def execute(instance, key):
-    # Enter key
-    if key == 27:
+    if key == 27:  # Enter
         # Switch to normal mode
         modes.activate(instance, "normal")
 

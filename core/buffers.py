@@ -41,6 +41,9 @@ def open_file(file_name):
     if lines[-1].endswith("\n") or not len(lines):
         lines.append("")
 
+    # Remove the newlines
+    lines = [line.rstrip("\n") for line in lines]
+
     # Return the list of lines
     return lines
 

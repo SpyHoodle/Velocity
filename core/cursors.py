@@ -1,4 +1,3 @@
-from core import utils
 import curses
 
 
@@ -16,7 +15,6 @@ def mode(to_mode: str):
         curses.curs_set(1)
 
 
-# TODO
 def push(instance, direction: (int, str)):
     if direction in (0, "up", "north"):
         # If the cursor isn't at the top of the screen
@@ -28,9 +26,6 @@ def push(instance, direction: (int, str)):
         if instance.raw_cursor[0] == 0 and instance.cursor[0] == instance.offset[0] and instance.cursor[0] != 0:
             instance.offset[0] -= 1
 
-    elif direction in (1, "right", "east"):
-        instance.raw_cursor[1] += 1
-
     elif direction in (2, "down", "south"):
         if instance.raw_cursor[0] == instance.safe_height and instance.cursor[0] != len(instance.buffer.data) - 1:
             instance.offset[0] += 1
@@ -40,14 +35,18 @@ def push(instance, direction: (int, str)):
             # Move the cursor down
             instance.raw_cursor[0] += 1
 
+    elif direction in (1, "right", "east"):
+        # Move the cursor one to the right
+        instance.raw_cursor[1] += 1
+
     elif direction in (3, "left", "west"):
-        if instance.raw_cursor[1] > 0:
-            instance.raw_cursor[1] -= 1
+        # Move the cursor one to the left
+        instance.raw_cursor[1] -= 1
 
 
 def check(instance, cursor: list) -> list:
     # Prevent the cursor from going outside the buffer
-    cursor[1] = min(len(instance.buffer.data[instance.cursor[0]]) - 2, cursor[1])
+    cursor[1] = min(len(instance.buffer.data[instance.cursor[0]]) - 1, cursor[1])
 
     # Prevent any negative values
     cursor[0] = max(0, cursor[0])

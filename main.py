@@ -8,11 +8,10 @@ from core.components import Components
 
 
 class Lambda:
-    def __init__(self, buffer: Buffer, config: dict = None):
+    def __init__(self, buffer: Buffer = None, config: dict = None):
         self.screen = curses.initscr()
-        self.components = Components()
         self.config = config or {"icon": "λ"}
-        self.buffer = buffer
+        self.buffer = buffer or [""]
         self.mode = "normal"
         self.cursor = [0, 0]
         self.raw_cursor = [0, 0]
@@ -21,6 +20,7 @@ class Lambda:
         self.width = 0
         self.safe_height = 0
         self.safe_width = 0
+        self.components = Components(self)
 
     def update_dimensions(self):
         # Calculate the entire height and width of the terminal
@@ -31,7 +31,7 @@ class Lambda:
         self.safe_width = self.width - self.components.get_component_width(self.components.components["left"]) - 1
 
     def refresh(self):
-        # Calculate the real cursor position
+        # Calculate the cursor position in the file
         self.cursor[0], self.cursor[1] = self.raw_cursor[0] + self.offset[0], self.raw_cursor[1] + self.offset[1]
 
         # Update the dimensions of the terminal
