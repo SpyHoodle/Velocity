@@ -7,12 +7,25 @@ import sys
 import os
 
 
+def clear(instance, y: int, x: int):
+    # Clear the line at the screen at position y, x
+    instance.screen.insstr(y, x, " " * (instance.width - x))
+
+
 def gracefully_exit():
     # Close the curses window
     curses.endwin()
 
     # Finally, exit the program
     sys.exit()
+
+
+def pause(message: str):
+    # End the curses session
+    curses.endwin()
+
+    # Print the message and wait for enter key
+    input(f"{message}\n\n Press enter to continue...")
 
 
 def load_json(file: str) -> dict:
@@ -27,12 +40,8 @@ def load_config() -> dict:
 
     # Only if the config file exists, attempt to load it
     if os.path.exists(config_file):
+        # Return the loaded config as a dictionary
         return load_json(config_file)
-
-
-def clear(instance, y: int, x: int):
-    # Clear the line at the screen at position y, x
-    instance.screen.insstr(y, x, " " * (instance.width - x))
 
 
 def welcome(screen):
@@ -121,23 +130,16 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         instance.screen.addstr(instance.height - 1, len(message), input_text)
 
 
-def goodbye(instance):
-    choice = prompt(instance, "Really quit lambda? (y/n): ", 11)
-    if choice and choice[0] == "y":
-        curses.endwin()
-        sys.exit()
+def press_key_to_continue(instance, message: str):
+    # Hide the cursor
+    curses.curs_set(0)
 
-    else:
-        clear(instance, instance.height - 1, 0)
-
-
-def error(instance, message: str):
-    # Parse the error message
-    error_message = f"ERROR: {message}"
+    # Clear the bottom of the screen
+    clear(instance, instance.height - 1, 0)
 
     # Write the entire message to the screen
-    instance.screen.addstr(instance.height - 1, 0, f"ERROR: {message}", curses.color_pair(3))
-    instance.screen.addstr(instance.height - 1, len(error_message) + 1, f"(press any key)")
+    instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(3))
+    instance.screen.addstr(instance.height - 1, len(message) + 1, f"(press any key)")
 
     # Wait for a keypress
     instance.screen.getch()
@@ -145,9 +147,20 @@ def error(instance, message: str):
     # Clear the bottom of the screen
     clear(instance, instance.height - 1, 0)
 
+    # Show the cursor
+    curses.curs_set(1)
+
+
+def error(instance, message: str):
+    # Parse the error message
+    error_message = f"ERROR: {message}"
+
+    # Create a prompt
+    press_key_to_continue(instance, error_message)
+
 
 def fatal_error(exception: Exception):
-    # Clean up the screen
+    # End the curses session
     curses.endwin()
 
     # Print the error message and traceback
@@ -157,3 +170,13 @@ def fatal_error(exception: Exception):
 
     # Exit, with an error exit code
     sys.exit(0)
+
+
+def goodbye(instance):
+    choice = prompt(instance, "Really quit lambda? (y/n): ", 11)
+    if choice and choice[0] == "y":
+        curses.endwin()
+        sys.exit()
+
+    else:
+        clear(instance, instance.height - 1, 0)
