@@ -1,3 +1,5 @@
+import curses
+
 from core import cursors, modes
 
 
