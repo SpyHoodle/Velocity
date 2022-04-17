@@ -1,5 +1,6 @@
-from core import utils
 import curses
+
+from core import utils
 
 
 class StatusBar:

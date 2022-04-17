@@ -6,15 +6,21 @@ def execute(instance, commands: list):
     if commands:
         # Check each command in the list of commands
         for command in commands:
-            if command == "w":  # Write
-                # Write to the file
-                pass
-
             if command == "d":  # Debug
                 # Create the debug prompt
-                utils.prompt(instance, f"*Whawt awe uwu doing tuwu me mastew?* "
-                                       f"Cursor: {instance.cursor} Raw: {instance.raw_cursor} "
-                                       f"Len: {len(instance.buffer.data)}")
+                utils.press_key_to_continue(instance, f"Cursor: {instance.cursor} Raw: {instance.raw_cursor} "
+                                                      f"Len: {len(instance.buffer.data)}")
+
+            elif command == "t":  # Toggle
+                # Toggle the status bar theme
+                if instance.components.components["bottom"][0].theme == "default":
+                    instance.components.components["bottom"][0].theme = "inverted"
+                else:
+                    instance.components.components["bottom"][0].theme = "default"
+
+            elif command == "w":  # Write
+                # Write to the file
+                pass
 
             elif command == "q":  # Quit
                 # Create a goodbye prompt

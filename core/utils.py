@@ -1,10 +1,11 @@
-from core.colors import Codes as c
-import traceback
-from pathlib import Path
 import curses
 import json
-import sys
 import os
+import sys
+import traceback
+from pathlib import Path
+
+from core.colors import Codes as Col
 
 
 def clear(instance, y: int, x: int):
@@ -130,7 +131,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         instance.screen.addstr(instance.height - 1, len(message), input_text)
 
 
-def press_key_to_continue(instance, message: str):
+def press_key_to_continue(instance, message: str, color: int = None):
     # Hide the cursor
     curses.curs_set(0)
 
@@ -138,7 +139,7 @@ def press_key_to_continue(instance, message: str):
     clear(instance, instance.height - 1, 0)
 
     # Write the entire message to the screen
-    instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(3))
+    instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color or 1))
     instance.screen.addstr(instance.height - 1, len(message) + 1, f"(press any key)")
 
     # Wait for a keypress
@@ -156,7 +157,7 @@ def error(instance, message: str):
     error_message = f"ERROR: {message}"
 
     # Create a prompt
-    press_key_to_continue(instance, error_message)
+    press_key_to_continue(instance, error_message, 3)
 
 
 def fatal_error(exception: Exception):
@@ -164,8 +165,8 @@ def fatal_error(exception: Exception):
     curses.endwin()
 
     # Print the error message and traceback
-    print(f"{c.red}FATAL ERROR:{c.end} "
-          f"{c.yellow}{exception}{c.end}\n")
+    print(f"{Col.red}FATAL ERROR:{Col.end} "
+          f"{Col.yellow}{exception}{Col.end}\n")
     print(traceback.format_exc())
 
     # Exit, with an error exit code
