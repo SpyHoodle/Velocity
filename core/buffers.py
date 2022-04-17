@@ -21,14 +21,17 @@ class Buffer:
                         instance.components.components["left"]) + len(line), " " * (instance.safe_width - len(line)))
 
     @staticmethod
-    def remove_char(string: str, index: int) -> str:
+    def remove_char(instance):
         # Remove a character from a string at a given index
-        return string[:index] + string[index + 1:]
+        instance.buffer.data[instance.cursor[0]] = instance.buffer.data[instance.cursor[0]][:(instance.cursor[1] - 1)] \
+                                                   + instance.buffer.data[instance.cursor[0]][(instance.cursor[1] - 1) + 1:]
 
     @staticmethod
-    def insert_char(string: str, index: int, char: (str, chr)) -> str:
+    def insert_char(instance, char: (str, chr)):
         # Insert a character into a string at a given index
-        return string[:index] + char + string[index:]
+        instance.buffer.data[instance.cursor[0]] = instance.buffer.data[instance.cursor[0]][:instance.cursor[1]] + \
+                                                   char + \
+                                                   instance.buffer.data[instance.cursor[0]][instance.cursor[1]:]
 
 
 def open_file(file_name):

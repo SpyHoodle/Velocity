@@ -20,7 +20,7 @@ def execute(instance, commands: list):
 
             elif command == "w":  # Write
                 # Write to the file
-                pass
+                utils.save_file(instance, instance.buffer.path, instance.buffer.data)
 
             elif command == "q":  # Quit
                 # Create a goodbye prompt

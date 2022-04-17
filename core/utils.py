@@ -8,17 +8,17 @@ from pathlib import Path
 from core.colors import Codes as Col
 
 
-def clear(instance, y: int, x: int):
-    # Clear the line at the screen at position y, x
-    instance.screen.insstr(y, x, " " * (instance.width - x))
-
-
 def gracefully_exit():
     # Close the curses window
     curses.endwin()
 
     # Finally, exit the program
     sys.exit()
+
+
+def clear(instance, y: int, x: int):
+    # Clear the line at the screen at position y, x
+    instance.screen.insstr(y, x, " " * (instance.width - x))
 
 
 def pause(message: str):
@@ -29,10 +29,24 @@ def pause(message: str):
     input(f"{message}\n\n Press enter to continue...")
 
 
-def load_json(file: str) -> dict:
-    # Load the json file with read permissions
+def load_file(file: str) -> dict:
+    # load the json file with read permissions
     with open(file, "r") as f:
         return json.load(f)
+
+
+def save_file(instance, file: str, data: list):
+    # Save the data to the file
+    with open(file, "w") as f:
+        try:
+            for index, line in enumerate(data):
+                if index == len(data) - 1:
+                    f.write(line)
+                else:
+                    f.write(f"{line}\n")
+
+        except Exception:
+            error(instance, f"File {file} could not be saved.")
 
 
 def load_config() -> dict:
@@ -41,8 +55,8 @@ def load_config() -> dict:
 
     # Only if the config file exists, attempt to load it
     if os.path.exists(config_file):
-        # Return the loaded config as a dictionary
-        return load_json(config_file)
+        # Return the loaded config
+        return load_file(config_file)
 
 
 def welcome(screen):

@@ -9,10 +9,6 @@ from core.components import Components
 
 class Lambda:
     def __init__(self, buffer: Buffer = None, config: dict = None):
-        self.screen = curses.initscr()
-        self.config = config or {"icon": "λ"}
-        self.buffer = buffer or [""]
-        self.mode = "normal"
         self.cursor = [0, 0]
         self.raw_cursor = [0, 0]
         self.offset = [0, 0]
@@ -20,6 +16,10 @@ class Lambda:
         self.width = 0
         self.safe_height = 0
         self.safe_width = 0
+        self.mode = "normal"
+        self.config = config or {"icon": "λ"}
+        self.buffer = buffer or [""]
+        self.screen = curses.initscr()
         self.components = Components(self)
 
     def update_dimensions(self):
