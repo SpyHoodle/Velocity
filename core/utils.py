@@ -186,10 +186,22 @@ def fatal_error(exception: Exception):
 
 
 def goodbye(instance):
-    choice = prompt(instance, "Really quit lambda? (y/n): ", 11)
-    if choice and choice[0] == "y":
-        curses.endwin()
-        sys.exit()
+    try:
+        # Confirm before exiting
+        choice = prompt(instance, "Really quit lambda? (y/n): ", 11)
 
-    else:
-        clear(instance, instance.height - 1, 0)
+        # If the user confirms, exit
+        if choice and choice[0] == "y":
+            gracefully_exit()
+
+        # Clear the prompt if the user cancels
+        else:
+            clear(instance, instance.height - 1, 0)
+
+    except KeyboardInterrupt:
+        # If the user presses Ctrl+C, just exit
+        gracefully_exit()
+
+    except Exception as exception:
+        # If there is an error, print the error message and traceback
+        fatal_error(exception)

@@ -99,15 +99,15 @@ def main():
     config = utils.load_config()
 
     # Load lambda with the buffer object
-    screen = Lambda(buffer, config)
+    instance = Lambda(buffer, config)
 
     # Start the screen, this will loop until exit
     try:
-        screen.start()
+        instance.start()
 
     # KeyboardInterrupt is thrown when <C-c> is pressed (exit)
     except KeyboardInterrupt:
-        utils.gracefully_exit()
+        utils.goodbye(instance)
 
     # Excepts *any* errors that occur
     except Exception as exception:
