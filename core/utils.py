@@ -6,6 +6,7 @@ import traceback
 from pathlib import Path
 
 from core.colors import Codes as Col
+from core import cursors
 
 
 def gracefully_exit():
@@ -29,15 +30,15 @@ def pause(message: str):
     input(f"{message}\n\n Press enter to continue...")
 
 
-def load_file(file: str) -> dict:
+def load_file(file_path: str) -> dict:
     # load the json file with read permissions
-    with open(file, "r") as f:
+    with open(file_path, "r") as f:
         return json.load(f)
 
 
-def save_file(instance, file: str, data: list):
+def save_file(instance, file_path: str, data: list):
     # Save the data to the file
-    with open(file, "w") as f:
+    with open(file_path, "w") as f:
         try:
             for index, line in enumerate(data):
                 if index == len(data) - 1:
@@ -46,17 +47,17 @@ def save_file(instance, file: str, data: list):
                     f.write(f"{line}\n")
 
         except Exception:
-            error(instance, f"File {file} could not be saved.")
+            error(instance, f"File {file_path} could not be saved.")
 
 
 def load_config() -> dict:
     # Parse the path of the config file
-    config_file = f"{Path.home()}/.config/lambda/config.json"
+    config_file_path = f"{Path.home()}/.config/lambda/config.json"
 
     # Only if the config file exists, attempt to load it
-    if os.path.exists(config_file):
+    if os.path.exists(config_file_path):
         # Return the loaded config
-        return load_file(config_file)
+        return load_file(config_file_path)
 
 
 def welcome(screen):
@@ -125,12 +126,9 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         else:
             # If any other key is typed, append it
             # As long as the key is in the valid list
-            valid = "abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ!"
+            valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!/_-0123456789 "
             if chr(key) in valid and len(inp) < (instance.width - 2):
                 inp.append(chr(key))
-
-        # Refresh the screen
-        instance.screen.refresh()
 
         # Refresh the screen
         instance.refresh()
@@ -147,7 +145,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
 
 def press_key_to_continue(instance, message: str, color: int = None):
     # Hide the cursor
-    curses.curs_set(0)
+    cursors.mode("hidden")
 
     # Clear the bottom of the screen
     clear(instance, instance.height - 1, 0)
@@ -163,7 +161,7 @@ def press_key_to_continue(instance, message: str, color: int = None):
     clear(instance, instance.height - 1, 0)
 
     # Show the cursor
-    curses.curs_set(1)
+    cursors.mode("visible")
 
 
 def error(instance, message: str):

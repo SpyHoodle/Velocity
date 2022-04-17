@@ -34,9 +34,9 @@ class Buffer:
                                                    instance.buffer.data[instance.cursor[0]][instance.cursor[1]:]
 
 
-def open_file(file_name):
+def open_file(file_path):
     # Open the file
-    with open(file_name) as f:
+    with open(file_path) as f:
         # Convert it into a list of lines
         lines = f.readlines()
 
@@ -63,7 +63,7 @@ def load_file(file_path=None):
         # Only if the file actually exists
         if os.path.exists(file_path):
             # Open the file as a list of lines
-            file_data = open_file(file_name)
+            file_data = open_file(file_path)
 
     # Return a dictionary which will become all the data about the buffer
     return Buffer(file_path, file_name, file_data)

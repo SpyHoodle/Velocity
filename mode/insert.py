@@ -1,6 +1,4 @@
-import curses
-
-from core import cursors, modes, utils
+from core import cursors, modes
 
 
 def execute(instance, key):
@@ -8,7 +6,7 @@ def execute(instance, key):
         # Switch to normal mode
         modes.activate(instance, "normal")
 
-    elif key == 127:  # Backspace
+    elif key in (curses.KEY_BACKSPACE, 127, '\b'):  # Backspace
         if instance.cursor[1] > 0:
             # Delete the character before the cursor
             instance.buffer.remove_char(instance)
