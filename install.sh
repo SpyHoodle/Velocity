@@ -2,7 +2,7 @@
 
 # Copy lambda to ~/.local/share
 rm -rf ~/.local/share/lambda
-ln -sf $(pwd) ~/.local/share/lambda
+ln -sf "$(pwd)" ~/.local/share/lambda
 
 # Copy lambda to ~/.local/share
 #mkdir -p ~/.local/share/lambda

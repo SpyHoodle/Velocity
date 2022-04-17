@@ -20,3 +20,11 @@ However, it takes a different approach to most of the features seen in other edi
 - Lambda is extremely fast and makes use of efficient memory management.
   - Neovim is slow, and actually requires [a plugin to speed it up](https://github.com/lewis6991/impatient.nvim).
 - Lambda has much better default keybindings than other text editors.
+
+### Getting started
+```bash
+git clone https://github.com/SpyHoodle/lambda.git # Clone the repository
+cd lambda # Enter lambda directory
+chmod +x install.sh # Make the install script executable
+./install.sh # Run the install script
+```
