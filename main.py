@@ -80,7 +80,6 @@ class Lambda:
             modes.handle_key(self, key)
 
             # Refresh and clear the screen
-            self.screen.refresh()
             self.screen.erase()
 
 

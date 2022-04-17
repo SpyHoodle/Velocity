@@ -143,7 +143,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         instance.screen.addstr(instance.height - 1, len(message), input_text)
 
 
-def press_key_to_continue(instance, message: str, color: int = None):
+def press_key_to_continue(instance, message: str, color: int = 1):
     # Hide the cursor
     cursors.mode("hidden")
 
@@ -151,7 +151,7 @@ def press_key_to_continue(instance, message: str, color: int = None):
     clear(instance, instance.height - 1, 0)
 
     # Write the entire message to the screen
-    instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color or 1))
+    instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color))
     instance.screen.addstr(instance.height - 1, len(message) + 1, f"(press any key)")
 
     # Wait for a keypress
