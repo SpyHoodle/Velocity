@@ -5,8 +5,8 @@ import sys
 import traceback
 from pathlib import Path
 
-from core.colors import Codes as Col
 from core import cursors
+from core.colors import Codes as Col
 
 
 def gracefully_exit():
