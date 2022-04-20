@@ -18,7 +18,7 @@ class StatusBar:
 
     def render(self, instance):
         # Clear the status bar
-        utils.clear(instance, instance.height - 2, 0)
+        utils.clear_line(instance, instance.height - 2, 0)
 
         # Update variables
         self.update(instance)

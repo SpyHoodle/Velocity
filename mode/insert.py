@@ -11,7 +11,7 @@ def execute(instance, key):
     elif key in (curses.KEY_BACKSPACE, 127, '\b'):  # Backspace
         if instance.cursor[1] > 0:
             # Delete the character before the cursor
-            instance.buffer.remove_char(instance)
+            instance.buffer.delete_char(instance)
 
             # Move the cursor one to the left
             cursors.push(instance, 3)

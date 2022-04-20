@@ -22,30 +22,30 @@ def init_colors():
     curses.start_color()
 
     # Foreground: WHITE, Background: BLACK
-    curses.init_pair(1, curses.COLOR_WHITE,    curses.COLOR_BLACK)
+    curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: WHITE
-    curses.init_pair(2, curses.COLOR_BLACK,    curses.COLOR_WHITE)
+    curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
     # Foreground: RED, Background: BLACK
-    curses.init_pair(3, curses.COLOR_RED,      curses.COLOR_BLACK)
+    curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: RED
-    curses.init_pair(4, curses.COLOR_BLACK,    curses.COLOR_RED)
+    curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_RED)
     # Foreground: GREEN, Background: BLACK
-    curses.init_pair(5, curses.COLOR_GREEN,    curses.COLOR_BLACK)
+    curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: GREEN
-    curses.init_pair(6, curses.COLOR_BLACK,    curses.COLOR_GREEN)
+    curses.init_pair(6, curses.COLOR_BLACK, curses.COLOR_GREEN)
     # Foreground: YELLOW, Background: BLACK
-    curses.init_pair(7, curses.COLOR_YELLOW,   curses.COLOR_BLACK)
+    curses.init_pair(7, curses.COLOR_YELLOW, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: YELLOW
-    curses.init_pair(8, curses.COLOR_BLACK,    curses.COLOR_YELLOW)
+    curses.init_pair(8, curses.COLOR_BLACK, curses.COLOR_YELLOW)
     # Foreground: CYAN, Background: BLACK
-    curses.init_pair(9, curses.COLOR_CYAN,     curses.COLOR_BLACK)
+    curses.init_pair(9, curses.COLOR_CYAN, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: CYAN
-    curses.init_pair(10, curses.COLOR_BLACK,   curses.COLOR_CYAN)
+    curses.init_pair(10, curses.COLOR_BLACK, curses.COLOR_CYAN)
     # Foreground: BLUE, Background: BLACK
-    curses.init_pair(11, curses.COLOR_BLUE,    curses.COLOR_BLACK)
+    curses.init_pair(11, curses.COLOR_BLUE, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: BLUE
-    curses.init_pair(12, curses.COLOR_BLACK,   curses.COLOR_BLUE)
+    curses.init_pair(12, curses.COLOR_BLACK, curses.COLOR_BLUE)
     # Foreground: MAGENTA, Background: BLACK
     curses.init_pair(13, curses.COLOR_MAGENTA, curses.COLOR_BLACK)
     # Foreground: BLACK, Background: MAGENTA
-    curses.init_pair(14, curses.COLOR_BLACK,   curses.COLOR_MAGENTA)
+    curses.init_pair(14, curses.COLOR_BLACK, curses.COLOR_MAGENTA)

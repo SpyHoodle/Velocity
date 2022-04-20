@@ -6,6 +6,6 @@ cp -rf . ~/.local/share/lambda
 
 # Copy lambda launcher
 chmod +x ./lambda
-rm -r ~/.local/bin/lambda
+rm -rf ~/.local/bin/lambda
 ln -s ~/.local/share/lambda/lambda ~/.local/bin/lambda
 chmod +x ~/.local/bin/lambda

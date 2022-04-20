@@ -62,25 +62,37 @@ class Lambda:
 
         # Show a welcome message if lambda opens with no file
         if not self.buffer.path:
-            utils.welcome(self.screen)
+            # Update the screen variables
+            self.refresh()
+
+            # Show the welcome message
+            utils.welcome(self)
 
         # Main loop
         self.run()
 
     def run(self):
-        # The main loop, which runs until the user quits
-        while True:
-            # Update the screen variables
-            self.refresh()
+        try:
+            # The main loop, which runs until the user quits
+            while True:
+                # Update the screen variables
+                self.refresh()
 
-            # Wait for a keypress
-            key = self.screen.getch()
+                # Wait for a keypress
+                key = self.screen.getch()
 
-            # Handle the key
-            modes.handle_key(self, key)
+                # Handle the key
+                modes.handle_key(self, key)
 
-            # Refresh and clear the screen
-            self.screen.erase()
+                # Refresh and clear the screen
+                self.screen.erase()
+
+        except KeyboardInterrupt:  # Ctrl-C
+            # Create a goodbye prompt
+            utils.goodbye(self)
+
+            # Run the main loop again
+            self.run()
 
 
 def main():
@@ -96,7 +108,7 @@ def main():
     buffer = buffers.load_file(args.file)
 
     # Load the config
-    config = utils.load_config()
+    config = utils.load_config_file()
 
     # Load lambda with the buffer object
     instance = Lambda(buffer, config)
@@ -104,10 +116,6 @@ def main():
     # Start the screen, this will loop until exit
     try:
         instance.start()
-
-    # KeyboardInterrupt is thrown when <C-c> is pressed (exit)
-    except KeyboardInterrupt:
-        utils.goodbye(instance)
 
     # Excepts *any* errors that occur
     except Exception as exception:

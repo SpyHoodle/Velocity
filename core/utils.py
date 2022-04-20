@@ -17,12 +17,12 @@ def gracefully_exit():
     sys.exit()
 
 
-def clear(instance, y: int, x: int):
+def clear_line(instance, y: int, x: int):
     # Clear the line at the screen at position y, x
     instance.screen.insstr(y, x, " " * (instance.width - x))
 
 
-def pause(message: str):
+def pause_screen(message: str):
     # End the curses session
     curses.endwin()
 
@@ -40,17 +40,22 @@ def save_file(instance, file_path: str, data: list):
     # Save the data to the file
     with open(file_path, "w") as f:
         try:
+            # For each line in the file
             for index, line in enumerate(data):
                 if index == len(data) - 1:
+                    # If this is the last line, write it without a newline
                     f.write(line)
+
                 else:
+                    # Otherwise, write the line with a newline
                     f.write(f"{line}\n")
 
-        except Exception:
+        except (OSError, IOError):
+            # If the file could not be written, show an error message
             error(instance, f"File {file_path} could not be saved.")
 
 
-def load_config() -> dict:
+def load_config_file() -> dict:
     # Parse the path of the config file
     config_file_path = f"{Path.home()}/.config/lambda/config.json"
 
@@ -60,10 +65,7 @@ def load_config() -> dict:
         return load_file(config_file_path)
 
 
-def welcome(screen):
-    # Get window height and width
-    height, width = screen.getmaxyx()
-
+def welcome(instance):
     # Startup text
     title = "λ Lambda"
     subtext = [
@@ -75,17 +77,17 @@ def welcome(screen):
     ]
 
     # Centering calculations
-    start_x_title = int((width // 2) - (len(title) // 2) - len(title) % 2)
-    start_y = int((height // 2) - 2)
+    start_x_title = int((instance.safe_width // 2) - (len(title) // 2) - len(title) % 2 + 2)
+    start_y = int((instance.safe_height // 2) - 1)
 
     # Rendering title
-    screen.addstr(start_y, start_x_title, title, curses.color_pair(7) | curses.A_BOLD)
+    instance.screen.addstr(start_y, start_x_title, title, curses.color_pair(7) | curses.A_BOLD)
 
     # Print the subtext
     for text in subtext:
         start_y += 1
-        start_x = int((width // 2) - (len(text) // 2) - len(text) % 2)
-        screen.addstr(start_y, start_x, text)
+        start_x = int((instance.safe_width // 2) - (len(text) // 2) - len(text) % 2 + 2)
+        instance.screen.addstr(start_y, start_x, text)
 
 
 def prompt(instance, message: str, color: int = 1) -> (list, None):
@@ -93,7 +95,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
     inp = []
 
     # Write whitespace over characters to refresh it
-    clear(instance, instance.height - 1, len(message) + len(inp) - 1)
+    clear_line(instance, instance.height - 1, len(message) + len(inp) - 1)
 
     # Write the message to the screen
     instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color))
@@ -105,7 +107,7 @@ def prompt(instance, message: str, color: int = 1) -> (list, None):
         # Subtracting a key (backspace)
         if key in (curses.KEY_BACKSPACE, 127, '\b'):
             # Write whitespace over characters to refresh it
-            clear(instance, instance.height - 1, len(message) + len(inp) - 1)
+            clear_line(instance, instance.height - 1, len(message) + len(inp) - 1)
 
             if inp:
                 # Subtract a character from the input list
@@ -148,7 +150,7 @@ def press_key_to_continue(instance, message: str, color: int = 1):
     cursors.mode("hidden")
 
     # Clear the bottom of the screen
-    clear(instance, instance.height - 1, 0)
+    clear_line(instance, instance.height - 1, 0)
 
     # Write the entire message to the screen
     instance.screen.addstr(instance.height - 1, 0, message, curses.color_pair(color))
@@ -158,7 +160,7 @@ def press_key_to_continue(instance, message: str, color: int = 1):
     instance.screen.getch()
 
     # Clear the bottom of the screen
-    clear(instance, instance.height - 1, 0)
+    clear_line(instance, instance.height - 1, 0)
 
     # Show the cursor
     cursors.mode("visible")
@@ -196,7 +198,7 @@ def goodbye(instance):
 
         # Clear the prompt if the user cancels
         else:
-            clear(instance, instance.height - 1, 0)
+            clear_line(instance, instance.height - 1, 0)
 
     except KeyboardInterrupt:
         # If the user presses Ctrl+C, just exit
