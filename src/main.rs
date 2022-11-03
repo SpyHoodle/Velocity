@@ -10,10 +10,10 @@ struct Buffer<'a> {
     path: &'a str,
 }
 
-struct Editor {
-    buffer: Buffer,
-    cursor: [i32, 2],
-    mode: Mode;
+struct Editor<'a> {
+    buffer: Buffer<'a>,
+    cursor: [i32; 2],
+    mode: Mode,
 }
 
 fn main() {
