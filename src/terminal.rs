@@ -1,5 +1,6 @@
 use crossterm::terminal;
 use crossterm::{execute, ErrorKind};
+use crossterm::style::Print;
 use std::io::{stdout, Write};
 
 #[derive(Debug)]
@@ -35,5 +36,9 @@ impl Terminal {
         // Exit the current terminal
         execute!(stdout(), terminal::LeaveAlternateScreen).unwrap();
         terminal::disable_raw_mode().unwrap();
+    }
+
+    pub fn write(text: String) {
+        execute!(stdout(), Print(text)).unwrap();
     }
 }
