@@ -5,14 +5,14 @@ mod editor;
 
 fn main() {
     let lambda = editor::Editor::new();
-    let _term = terminal::Terminal::new();
+    let mut term = terminal::Terminal::new().unwrap();
     loop {
-        print!("{esc}[2J{esc}[1;1H", esc = 27 as char);
         for line in lambda.buffer.data {
             terminal::Terminal::write(format!("{line}"));
+            mut term.cursor.move_to(0, 1);
         };
-        std::thread::sleep(Duration::from_millis(3000));
+        std::thread::sleep(Duration::from_secs(3));
         break;
     };
-    terminal::Terminal::exit()
+    terminal::Terminal::exit();
 }
