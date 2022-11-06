@@ -1,7 +1,11 @@
-enum Mode {
-    Normal,
-    Insert,
-    Select
+pub struct Config<'a> {
+    pub logo: &'a str,
+}
+
+impl<'a> Config<'a> {
+    pub fn new() -> Self {
+        Self { logo: "λ" }
+    }
 }
 
 pub struct Buffer<'a> {
@@ -10,21 +14,41 @@ pub struct Buffer<'a> {
     pub path: &'a str,
 }
 
+pub enum Mode {
+    Normal,
+    Insert,
+    Select,
+    Command,
+}
+
+impl Mode {
+    pub fn as_str(&self) -> &str {
+        match self {
+            Mode::Normal => "NORMAL",
+            Mode::Insert => "INSERT",
+            Mode::Select => "SELECT",
+            Mode::Command => "COMMAND",
+        }
+    }
+}
+
 pub struct Editor<'a> {
+    pub config: Config<'a>,
     pub buffer: Buffer<'a>,
-    pub cursor: [i32; 2],
-    mode: Mode,
+    pub cursors: Vec<i32>,
+    pub mode: Mode,
 }
 
 impl<'a> Editor<'a> {
     pub fn new() -> Self {
         Editor {
+            config: Config::new(),
             buffer: Buffer {
                 data: Vec::from([String::from("Hello"), String::from("World")]),
                 name: "[No Name]",
                 path: "/home/spy",
             },
-            cursor: [0, 0],
+            cursors: Vec::from([0]),
             mode: Mode::Normal,
         }
     }
