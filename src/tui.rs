@@ -46,7 +46,7 @@ pub fn draw_status(screen: &mut Screen, editor: &Editor) {
 pub fn draw_welcome(screen: &mut Screen, editor: &Editor) {
     // The welcome message
     let message: [&str; 6] = [
-        &"λ Lambda".bright_yellow() as &str,
+        &"λ Lambda".yellow() as &str,
         "Hackable text editor for nerds",
         "",
         "Type :help to open the README.md document",
