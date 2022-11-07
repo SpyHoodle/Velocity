@@ -43,8 +43,37 @@ pub fn draw_status(screen: &mut Screen, editor: &Editor) {
     );
 }
 
+pub fn draw_welcome(screen: &mut Screen, editor: &Editor) {
+    // The welcome message
+    let message: [&str; 6] = [
+        &"λ Lambda".bright_yellow() as &str,
+        "Hackable text editor for nerds",
+        "",
+        "Type :help to open the README.md document",
+        "Type :o <file> to open a file and edit",
+        "Type :q! or <C-c> to quit lambda",
+    ];
+
+    // The starting y position in the centre of the screen
+    let mut y = (screen.size.height / 2) - (message.len() / 2) - 2;
+
+    for line in message {
+        // Each line has different width so requires a different x position to center it
+        let x = (screen.size.width / 2) - (line.len() / 2);
+
+        // For each line we move downwards so increment y
+        y += 1;
+
+        // Write the line to the screen at position (x, y)
+        screen.write_at(line.to_string(), Coords::from(x, y));
+    }
+}
+
 pub fn start(screen: &mut Screen, editor: Editor) {
     loop {
+        // Draw the welcome message
+        draw_welcome(screen, &editor);
+
         // Draw the status bar
         draw_status(screen, &editor);
 
