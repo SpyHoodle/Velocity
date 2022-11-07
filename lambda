@@ -1,3 +1,0 @@
-#!/bin/sh
-
-python3 ~/.local/share/lambda/main.py "$@"

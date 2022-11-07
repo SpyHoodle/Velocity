@@ -1,35 +1,29 @@
-# λ lambda
+# λ Lambda
+A next-generation hackable incredibly performant rust text editor for nerds.
+> ⚠️ Lambda is in *very* early stages at the moment. Lambda's goals are still being decided and features may completely change.
 
-Next generation hackable text editor for nerds.
+## Overview
+Lambda is a similar text editor to `vim` or `kakoune`, taking some ideas from `xi`.
+The main goal is to build the best text editor possible by taking ideas from existing text editors and implementing them in the best possible way.
 
-### Let it be known!
+- Lambda is written in Rust, so it's incredibly fast and logical
+  - It's also full of comments, so anyone can try and learn what it's doing
+- Lambda is very modular and extensible, so features can be easily added through a variety of methods
+  - Need to run a set of keybinds in order? Create a macro
+  - Need to create a completely new feature? Just fork it and write it in Rust
+- Lambda is separated between the core and the standard terminal implementation
+  - This means that anyone can implement their own keybinds, ui, themes, styling, etc.
+  - This also means that there is one standard way for managing the text itself - inside of the lambda core
+- Lambda is a modal text editor and uses ideas from kakoune, and is designed for the select -> action structure
+  - Since anyone can implement their own keybinds, it's possible to make a vim implementation that uses the action -> select structure
+- Lambda follows the unix philosophy of "do one thing and do it well"
+  - It has no bloated features like splits or tabs
+  - It contains the bare necessities and provides a few extra modules
+- Lambda has much better default keybindings than other text editors
 
-Lambda is in *very* early stages at the moment. Features may change completely, or even be removed.<br>
-Don't expect lambda to stay the way it is. Updates are pushed often.
-
-### Overview
-
-Lambda is a similar text editor to `vim` or `kakoune`.<br>
-However, it takes a different approach to most of the features seen in other editors.
-
-- Lambda is written in Python, so it is easy to hack and learn.
-    - It also has a good amount of comments!
-- Lambda is incredibly modular, so you can easily add new features.
-- Lambda follows the unix philosophy of "do one thing and do it well."
-    - It has no bloated features, like splits or tabs
-    - It contains the bare necessities and provides a few extra modules
-- Lambda isn't limited to modes or keybindings.
-    - Keybindings and modes can be easily changed
-    - Other modes can be used by holding down keybindings (i.e. `ctrl-x` inside of `insert` mode)
-- Lambda is extremely fast and makes use of efficient memory management.
-    - Neovim is slow, and actually requires [a plugin to speed it up](https://github.com/lewis6991/impatient.nvim).
-- Lambda has much better default keybindings than other text editors.
-
-### Getting started
-
+## Getting started
+You'll need `cargo` (ideally from `rustup`) and an up to date version of `rust`.
 ```bash
-git clone https://github.com/SpyHoodle/lambda.git # Clone the repository
-cd lambda # Enter lambda directory
-chmod +x install.sh # Make the install script executable
-./install.sh # Run the install script
+git clone https://github.com/SpyHoodle/lambda.git # Clone the repositiory
+cargo run # Build and run lambda!
 ```
