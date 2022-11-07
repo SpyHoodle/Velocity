@@ -16,7 +16,7 @@ The main goal is to build the best text editor possible by taking ideas from exi
 
 ## Getting started
 You'll need `cargo` (ideally from `rustup`) and an up to date version of `rust`.
-```
+```bash
 git clone https://github.com/SpyHoodle/lambda.git # Clone the repositiory
 cargo run # Build and run lambda!
 ```
