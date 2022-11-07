@@ -1,4 +1,2 @@
-- [X] Remove colored in favour of crossterm's styling
-- [X] Use &str for writing text -> can't really be done 
-- [X] Make sure borrows for Screen and Editor are correct
-- [X] Fix small terminal screen issues
+- [ ] Make components (i.e statusbar) modular
+- [ ] Modularise functions

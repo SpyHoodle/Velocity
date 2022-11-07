@@ -1,7 +1,18 @@
 [package]
 name = "lambda"
 version = "0.1.0"
+authors = ["Madeline <maddie@spyhoodle.me>"]
 edition = "2021"
+description = "Next generation hackable text editor for nerds"
+homepage = "https://github.com/SpyHoodle/lambda"
+repository = "https://github.com/SpyHoodle/lambda"
+readme = "README.md"
+include = ["src/*.rs", "Cargo.toml"]
+categories = ["text-editors"]
+keywords = ["text-editor", "editor", "terminal", "tui"]
+
+[profile.release]
+panic = abort
 
 [dependencies]
 crossterm = "0.25"
