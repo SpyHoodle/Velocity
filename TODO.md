@@ -1,0 +1,1 @@
+- [ ] Remove colored in favour of crossterm's styling

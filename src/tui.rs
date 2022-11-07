@@ -28,10 +28,17 @@ pub fn draw_status(screen: &mut Screen, editor: &Editor) {
     // Get the current open file name
     let file_name = &format!(" {} ", editor.buffer.name) as &str;
     // Calculate where to write the file name
-    let x = editor_logo.len() + mode_string.len() - 1;
+    let x = x + mode_string.len();
     // Write the current file name
     screen.write_at(
         file_name.magenta().bold().reversed().to_string(),
+        Coords::from(x, status_height),
+    );
+
+    // Draw the rest of the status bar
+    let x = x + file_name.len();
+    screen.write_at(
+        " ".repeat(screen.size.width - x).reversed().to_string(),
         Coords::from(x, status_height),
     );
 }
@@ -45,6 +52,11 @@ pub fn start(screen: &mut Screen, editor: Editor) {
         match read().unwrap() {
             Event::Key(KeyEvent {
                 code: KeyCode::Char('q'),
+                modifiers: KeyModifiers::CONTROL,
+                ..
+            }) => break,
+            Event::Key(KeyEvent {
+                code: KeyCode::Char('c'),
                 modifiers: KeyModifiers::CONTROL,
                 ..
             }) => break,

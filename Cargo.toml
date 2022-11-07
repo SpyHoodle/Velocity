@@ -6,4 +6,3 @@ edition = "2021"
 [dependencies]
 crossterm = "0.25"
 colored = "2"
-ctrlc = "3.2.3"
