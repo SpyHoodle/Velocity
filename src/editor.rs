@@ -1,10 +1,14 @@
 pub struct Config<'a> {
     pub logo: &'a str,
+    pub friendly_name: &'a str,
 }
 
 impl<'a> Config<'a> {
     pub fn new() -> Self {
-        Self { logo: "λ" }
+        Self {
+            logo: "λ",
+            friendly_name: "Lambda",
+        }
     }
 }
 
@@ -14,6 +18,7 @@ pub struct Buffer<'a> {
     pub path: &'a str,
 }
 
+#[allow(dead_code)]
 pub enum Mode {
     Normal,
     Insert,

@@ -105,6 +105,19 @@ impl Screen {
 
 // Terminal functions and methods for managing the terminal
 impl Screen {
+    pub fn refresh(&mut self) -> Result<(), ErrorKind>{
+        // Clear the screen
+        Screen::clear();
+
+        // Update the screen dimensions
+        let size = terminal::size()?;
+        self.size.width = size.0 as usize;
+        self.size.height = size.1 as usize;
+
+        // Return Ok if was successful
+        Ok(())
+    }
+
     pub fn enter(&mut self) {
         // Hide the cursor
         self.cursor.hide();
@@ -123,19 +136,19 @@ impl Screen {
         terminal::disable_raw_mode().unwrap();
     }
 
-    pub fn write(text: String) {
-        // Writes a line to a current cursor position
-        execute!(stdout(), Print(text)).unwrap();
-    }
-
     pub fn clear() {
         // Clears the terminal screen
         execute!(stdout(), terminal::Clear(terminal::ClearType::All)).unwrap();
     }
 
+    pub fn write(text: &str) {
+        // Writes a line to a current cursor position
+        execute!(stdout(), Print(text)).unwrap();
+    }
+
     pub fn write_at(&mut self, text: String, position: Coords) {
         // Writes a line at a set of coordinates
         self.cursor.move_to(position);
-        Screen::write(text);
+        Screen::write(&text);
     }
 }
