@@ -1,5 +1,5 @@
-use crate::editor::Editor;
-use crate::terminal::{Coords, Screen};
+use crate::core::editor::Editor;
+use crate::terminal::screen::{Coords, Screen};
 use crossterm::style::Stylize;
 use crossterm::event::{read, Event, KeyCode, KeyEvent, KeyModifiers};
 
