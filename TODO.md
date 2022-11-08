@@ -1,2 +1,2 @@
-- [ ] Make components (i.e statusbar) modular
 - [ ] Modularise functions
+- [ ] Make components (i.e statusbar) modular

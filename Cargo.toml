@@ -11,8 +11,5 @@ include = ["src/*.rs", "Cargo.toml"]
 categories = ["text-editors"]
 keywords = ["text-editor", "editor", "terminal", "tui"]
 
-[profile.release]
-panic = abort
-
 [dependencies]
 crossterm = "0.25"

@@ -1,9 +1,8 @@
-mod editor;
+mod core;
 mod terminal;
-mod tui;
 
 fn main() {
-    let lambda = editor::Editor::new();
-    let mut screen = terminal::Screen::new().unwrap();
-    tui::start(&mut screen, lambda);
+    let lambda = core::editor::Editor::new();
+    let mut screen = terminal::screen::Screen::new().unwrap();
+    terminal::tui::start(&mut screen, lambda);
 }
