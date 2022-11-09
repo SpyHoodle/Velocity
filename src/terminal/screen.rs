@@ -11,7 +11,7 @@ pub struct Coords {
     pub y: usize,
 }
 
-// Creating a coordinates from two values
+// Creating a set of coordinates from two values
 impl Coords {
     pub fn from(x: usize, y: usize) -> Self {
         Self { x, y }
