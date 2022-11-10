@@ -7,25 +7,44 @@ pub trait Component {
     fn draw(&self, screen: &mut Screen, editor: &Editor) -> Result<(), ()>;
 }
 
-struct Components {
-    bottom: Vec<Box<dyn Component>>,
+struct Components<'a> {
+    bottom: Vec<Box<dyn Component + 'a>>,
+    centre: Vec<Box<dyn Component + 'a>>,
 }
 
-pub struct Ui {
-    components: Components,
+pub struct Ui<'a> {
+    components: Components<'a>,
 }
 
-impl Ui {
-    pub fn new<'a>(editor: &'a Editor<'a>) -> Self {
+impl<'a> Ui<'a> {
+    pub fn new(editor: &'a Editor<'a>) -> Self {
         let status_bar = components::statusbar::StatusBar::new(editor);
+        let welcome_msg = components::welcome::WelcomeMessage::new(editor);
 
         Self {
-            components: Components { bottom: vec![Box::new(status_bar)]},
+            components: Components {
+                bottom: vec![Box::new(status_bar)],
+                centre: vec![Box::new(welcome_msg)],
+            },
         }
     }
 
-    pub fn draw(&self) {
+    pub fn draw(&self, screen: &mut Screen, editor: &Editor) {
+        // Dereference the box
+        let _ = &*self.components.bottom;
 
+        // Draw all components on the bottom
+        for component in &self.components.bottom {
+            component.draw(screen, &editor).unwrap();
+        };
+
+        // Dereference the box
+        let _ = &*self.components.centre;
+
+        // Draw all components in the center
+        for component in &self.components.centre {
+            component.draw(screen, &editor).unwrap();
+        }
     }
 
     pub fn run(screen: &mut Screen, editor: Editor) {
@@ -37,7 +56,7 @@ impl Ui {
             let components = Ui::new(&editor);
 
             // Draw all UI elements
-            components.draw();
+            components.draw(screen, &editor);
 
             // Check for any key presses
             match read().unwrap() {

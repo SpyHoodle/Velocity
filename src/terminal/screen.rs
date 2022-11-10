@@ -146,7 +146,7 @@ impl Screen {
         execute!(stdout(), Print(text)).unwrap();
     }
 
-    pub fn write_at(&mut self, text: String, position: Coords) {
+    pub fn write_at(&mut self, text: &String, position: Coords) {
         // Writes a line at a set of coordinates
         self.cursor.move_to(position);
         Screen::write(&text);

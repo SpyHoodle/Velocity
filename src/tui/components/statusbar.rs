@@ -1,5 +1,5 @@
-use crate::tui::ui::Component;
 use crate::tui::utils::with_spaces;
+use crate::tui::ui::Component;
 use crate::core::editor::Editor;
 use crate::terminal::screen::{Coords, Screen};
 use crossterm::style::Stylize;
@@ -42,7 +42,7 @@ impl<'a> Component for StatusBar<'a> {
         } else {
             // Write the editor logo
             screen.write_at(
-                editor_logo.yellow().bold().reverse().to_string(),
+                &editor_logo.yellow().bold().reverse().to_string(),
                 Coords::from(0, status_height),
             );
 
@@ -50,21 +50,21 @@ impl<'a> Component for StatusBar<'a> {
             let x = editor_logo.len() - 1;
             // Write the current mode
             screen.write_at(
-                mode_string.green().bold().reverse().to_string(),
+                &mode_string.green().bold().reverse().to_string(),
                 Coords::from(x, status_height),
             );
             // Calculate where to write the file name
             let x = x + mode_string.len();
             // Write the current file name
             screen.write_at(
-                file_name.magenta().bold().reverse().to_string(),
+                &file_name.magenta().bold().reverse().to_string(),
                 Coords::from(x, status_height),
             );
 
             // Draw the rest of the status bar
             let x = x + file_name.len();
             screen.write_at(
-                " ".repeat(screen.size.width - x).reverse().to_string(),
+                &" ".repeat(screen.size.width - x).reverse().to_string(),
                 Coords::from(x, status_height),
             );
 
