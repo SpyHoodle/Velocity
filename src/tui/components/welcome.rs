@@ -11,6 +11,7 @@ pub struct WelcomeMessage<'a> {
 
 impl<'a> WelcomeMessage<'a> {
     pub fn new(editor: &'a Editor<'a>) -> Self {
+        // The title message
         let title = format!("{} {}", editor.config.logo, editor.config.friendly_name);
 
         // The welcome message
