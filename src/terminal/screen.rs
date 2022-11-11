@@ -11,7 +11,7 @@ pub struct Coords {
     pub y: usize,
 }
 
-// Creating a set of coordinates from two values
+// Creating a coordinates from two values
 impl Coords {
     pub fn from(x: usize, y: usize) -> Self {
         Self { x, y }
@@ -146,7 +146,7 @@ impl Screen {
         execute!(stdout(), Print(text)).unwrap();
     }
 
-    pub fn write_at(&mut self, text: &String, position: Coords) {
+    pub fn write_at(&mut self, text: String, position: Coords) {
         // Writes a line at a set of coordinates
         self.cursor.move_to(position);
         Screen::write(&text);
