@@ -35,6 +35,7 @@ pub fn draw(screen: &mut Screen, editor: &Editor) -> Result<(), ()> {
             mode_string.green().bold().reverse().to_string(),
             Coords::from(x, status_height),
         );
+
         // Calculate where to write the file name
         let x = x + mode_string.len();
         // Write the current file name

@@ -1,3 +1,5 @@
+use crate::core::buffer::Buffer;
+
 pub struct Config<'a> {
     pub logo: &'a str,
     pub friendly_name: &'a str,
@@ -10,12 +12,6 @@ impl<'a> Config<'a> {
             friendly_name: "Lambda",
         }
     }
-}
-
-pub struct Buffer<'a> {
-    pub data: Vec<String>,
-    pub name: &'a str,
-    pub path: &'a str,
 }
 
 #[allow(dead_code)]
@@ -39,20 +35,16 @@ impl Mode {
 
 pub struct Editor<'a> {
     pub config: Config<'a>,
-    pub buffer: Buffer<'a>,
+    pub buffer: Box<Buffer<'a>>,
     pub cursors: Vec<i32>,
     pub mode: Mode,
 }
 
 impl<'a> Editor<'a> {
-    pub fn new() -> Self {
+    pub fn new(file_path: &'a str) -> Self {
         Editor {
             config: Config::new(),
-            buffer: Buffer {
-                data: Vec::from([String::from("Hello"), String::from("World")]),
-                name: "[No Name]",
-                path: "/home/spy",
-            },
+            buffer: Box::new(Buffer::new(file_path)),
             cursors: Vec::from([0]),
             mode: Mode::Normal,
         }
