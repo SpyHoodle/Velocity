@@ -1,6 +1,6 @@
 use crate::core::editor::Editor;
 use crate::terminal::screen::Screen;
-use crate::terminal::components;
+use crate::tui::components;
 use crossterm::event::{read, Event, KeyCode, KeyEvent, KeyModifiers};
 
 pub fn start(screen: &mut Screen, editor: Editor) {

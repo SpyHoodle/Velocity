@@ -1,7 +1,7 @@
 use crossterm::style::Stylize;
 use crate::core::editor::Editor;
 use crate::terminal::screen::{Coords, Screen};
-use crate::terminal::utils;
+use crate::tui::utils;
 
 pub fn draw(screen: &mut Screen, editor: &Editor) -> Result<(), ()> {
     // Calculate where to draw the status bar
