@@ -1,2 +1,2 @@
-- [ ] Modularise functions
-- [ ] Make components (i.e statusbar) modular
+- [ ] Add scratch buffers
+- [ ] Add read only buffers

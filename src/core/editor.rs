@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use crate::core::buffer::Buffer;
 
 pub struct Config<'a> {
@@ -41,10 +43,10 @@ pub struct Editor<'a> {
 }
 
 impl<'a> Editor<'a> {
-    pub fn new(file_path: &'a str) -> Self {
+    pub fn new(dir_path: PathBuf, file_name: &'a str) -> Self {
         Editor {
             config: Config::new(),
-            buffer: Box::new(Buffer::new(file_path)),
+            buffer: Box::new(Buffer::new(dir_path, file_name)),
             cursors: Vec::from([0]),
             mode: Mode::Normal,
         }

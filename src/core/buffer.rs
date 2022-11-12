@@ -1,30 +1,23 @@
-use std::path::Path;
-use std::env;
+use std::path::PathBuf;
 
 pub struct Buffer<'a> {
     pub data: Vec<String>,
+    pub path: PathBuf,
     pub name: &'a str,
-    pub path: &'a Path,
 }
 
 impl<'a> Buffer<'a> {
-    pub fn new(file_path: &'a str) -> Self {
-        let name = if file_path.len() > 0 {
-            Path::new(file_path).file_name().unwrap().to_str().unwrap()
+    pub fn new(dir_path: PathBuf, file_name: &'a str) -> Self {
+        let name = if file_name.len() > 0 {
+            file_name
         } else {
             "[No Name]"
         };
 
-        let path = if file_path.len() > 1 { 
-            Path::new(file_path)
-        } else {
-            env::current_dir().unwrap().parent().unwrap().to_str()
-        };
-        
         Self {
             data: vec![String::from("")],
+            path: dir_path,
             name,
-            path,
         }
     }
 }
