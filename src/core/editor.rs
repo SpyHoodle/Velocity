@@ -1,6 +1,6 @@
 use std::path::PathBuf;
-
 use crate::core::buffer::Buffer;
+use crate::core::buffer::BufferKind;
 
 pub struct Config<'a> {
     pub logo: &'a str,
@@ -43,10 +43,11 @@ pub struct Editor<'a> {
 }
 
 impl<'a> Editor<'a> {
-    pub fn new(dir_path: PathBuf, file_name: &'a str) -> Self {
+    pub fn new(path: PathBuf, buffer_name: &'a str) -> Self {
+        let buffer_kind = if path.to_str().unwrap().len() > 1 { BufferKind::Write } else { BufferKind::Scratch };
         Editor {
             config: Config::new(),
-            buffer: Box::new(Buffer::new(dir_path, file_name)),
+            buffer: Box::new(Buffer::new(path, buffer_name, buffer_kind)),
             cursors: Vec::from([0]),
             mode: Mode::Normal,
         }
