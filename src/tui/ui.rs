@@ -10,7 +10,7 @@ pub fn start(screen: &mut Screen, editor: Editor) {
         // Refresh the screen
         screen.refresh().unwrap();
 
-        // Draw the welcome message
+        // Draw the welcome message only if it is a scratch buffer
         if editor.buffer.kind == BufferKind::Scratch {
             components::welcome::draw(screen, &editor);
         };
