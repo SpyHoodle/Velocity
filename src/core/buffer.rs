@@ -10,9 +10,9 @@ pub enum BufferKind {
 impl BufferKind {
     pub fn as_str(&self) -> &str {
         match self {
-            BufferKind::Scratch => "*Scratch*",
-            BufferKind::Write => "Write",
-            BufferKind::Read => "Read",
+            BufferKind::Scratch => "*scratch*",
+            BufferKind::Write => "write",
+            BufferKind::Read => "read",
         }
     }
 }

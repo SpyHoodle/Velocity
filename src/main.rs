@@ -14,12 +14,12 @@ fn main() {
     let file_name = file_path.clone();
     let file_name = if args.len() > 1 { file_name.file_name().unwrap().to_str().unwrap() } else { "" };
 
-    // Create a new editor
-    let lambda = core::editor::Editor::new(file_path, file_name);
+    // Initalise a new editor
+    let velocity = core::editor::Editor::new(file_path, file_name);
 
     // Initalise a screen
     let mut screen = terminal::screen::Screen::new().unwrap();
 
     // Begin lambda
-    tui::ui::start(&mut screen, lambda);
+    tui::ui::start(&mut screen, velocity);
 }

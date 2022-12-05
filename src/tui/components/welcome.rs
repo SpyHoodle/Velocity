@@ -11,7 +11,7 @@ pub fn draw(screen: &mut Screen, editor: &Editor) {
         "",
         "Type :help to open the README.md document",
         "Type :o <file> to open a file and edit",
-        "Type :q! or <C-c> to quit lambda",
+        "Type :q! or <C-c> to quit the editor",
     ];
 
     // If the screen is big enough, we can draw

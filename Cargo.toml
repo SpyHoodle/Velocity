@@ -1,11 +1,11 @@
 [package]
-name = "lambda"
+name = "velocity"
 version = "0.1.0"
 authors = ["Madeline <maddie@spyhoodle.me>"]
 edition = "2021"
 description = "Next generation hackable text editor for nerds"
-homepage = "https://github.com/SpyHoodle/lambda"
-repository = "https://github.com/SpyHoodle/lambda"
+homepage = "https://github.com/SpyHoodle/velocity"
+repository = "https://github.com/SpyHoodle/velocity"
 readme = "README.md"
 include = ["src/*.rs", "Cargo.toml"]
 categories = ["text-editors"]

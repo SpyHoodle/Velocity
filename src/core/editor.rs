@@ -11,7 +11,7 @@ impl<'a> Config<'a> {
     pub fn new() -> Self {
         Self {
             logo: "λ",
-            friendly_name: "Lambda",
+            friendly_name: "Velocity",
         }
     }
 }

@@ -51,7 +51,7 @@ pub fn draw(screen: &mut Screen, editor: &Editor) -> Result<(), ()> {
                 Coords::from(x, status_height),
             );
         }
-        
+
         let x = if editor.buffer.name.len() > 0 { x + file_name.len() } else { x + buffer_kind.len() };
         screen.write_at(
             " ".repeat(screen.size.width - x).reverse().to_string(),
