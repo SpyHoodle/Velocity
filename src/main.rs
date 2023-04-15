@@ -20,6 +20,6 @@ fn main() {
     // Initalise a screen
     let mut screen = terminal::screen::Screen::new().unwrap();
 
-    // Begin lambda
+    // Begin velocity
     tui::ui::start(&mut screen, velocity);
 }
